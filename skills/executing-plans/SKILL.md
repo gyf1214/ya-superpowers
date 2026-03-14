@@ -33,7 +33,7 @@ For each task:
 
 After all tasks complete and verified:
 - Announce: "I'm using the finishing-a-project skill to close this work."
-- **REQUIRED SUB-SKILL:** Use superpowers:finishing-a-project
+- **REQUIRED SUB-SKILL:** Use finishing-a-project
 - Follow that skill to verify tests/git status and create the project-closing document
 
 ## When to Stop and Ask for Help
@@ -65,5 +65,5 @@ After all tasks complete and verified:
 ## Integration
 
 **Required workflow skills:**
-- **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:finishing-a-project** - Close implementation cycle after all tasks
+- **writing-plans** - Creates the plan this skill executes
+- **finishing-a-project** - Close implementation cycle after all tasks

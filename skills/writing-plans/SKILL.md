@@ -49,7 +49,7 @@ This structure informs the task decomposition. Each task should produce self-con
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED: Use superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED: Use `executing-plans` to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -114,11 +114,11 @@ git commit -m "feat: add specific feature"
 
 After completing each chunk of the plan:
 
-1. Dispatch plan-document-reviewer subagent (see plan-document-reviewer-prompt.md) with precisely crafted review context — never your session history. This keeps the reviewer focused on the plan, not your thought process.
-   - Provide: chunk content, path to spec document
+1. Run a structured review pass on the chunk (requirements coverage, file paths, test strategy, and dependency order).
+   - Provide to the review pass: chunk content, path to spec document
 2. If ❌ Issues Found:
    - Fix the issues in the chunk
-   - Re-dispatch reviewer for that chunk
+   - Re-run the review pass for that chunk
    - Repeat until ✅ Approved
 3. If ✅ Approved: proceed to next chunk (or execution handoff if last chunk)
 
@@ -136,5 +136,5 @@ After saving the plan:
 **"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Ready to execute?"**
 
 **Execution path:**
-- Execute plan in current session using superpowers:executing-plans
+- Execute plan in current session using executing-plans
 - Batch execution with checkpoints for review
