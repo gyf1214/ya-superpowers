@@ -29,18 +29,17 @@ In Codex environments, load the target `skills/<name>/SKILL.md` and follow it di
 
 ## Understand the Current Situation
 
-Before classifying work:
-
-1. Use session history and the current user request.
-2. If still unclear, check `MEMORY.md`, then `git status`.
+Before classifying:
+1. Use session history + current user request.
+2. If unclear, check `MEMORY.md`, then `git status`.
 
 ## Work Hierarchy First
 
-This section applies only to requests that cause repository changes (not read-only requests like debugging or code review).
+Only for change-causing requests (not read-only requests such as debugging/code review).
 
-General change workflow: classify work -> design -> plan -> execution.
+Workflow: classify -> design -> plan -> execution.
 
-Classify the request into exactly one of:
+Classify into exactly one:
 
 - `project`
 - `multiple phases` (when already in a project branch)
@@ -49,46 +48,16 @@ Classify the request into exactly one of:
 
 Use `repository/repo` for workspace terminology.
 
-Treat hierarchy as session state, not a one-time guess:
+Treat hierarchy as session state:
 - Reuse an already established classification when it still fits.
 - If new user input changes scope, reclassify explicitly.
-- If classification emerges during discussion, state the inferred class and continue.
-- If unclear and high-risk, ask one concise clarification question; otherwise choose best-fit and proceed.
+- If it emerges during discussion, state the inferred class and continue.
+- If unclear and high-risk, ask one concise question; otherwise choose best-fit and proceed.
 - Prefer this precedence: current explicit user statement -> persisted session memory -> current-request inference.
 
 ## The Rule
 
 **Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
-
-```dot
-digraph skill_flow {
-    "User message received" [shape=doublecircle];
-    "About to EnterPlanMode?" [shape=doublecircle];
-    "Already brainstormed?" [shape=diamond];
-    "Invoke brainstorming skill" [shape=box];
-    "Might any skill apply?" [shape=diamond];
-    "Open relevant skill file" [shape=box];
-    "Announce: 'Using [skill] to [purpose]'" [shape=box];
-    "Has checklist?" [shape=diamond];
-    "Create TodoWrite todo per item" [shape=box];
-    "Follow skill exactly" [shape=box];
-    "Respond (including clarifications)" [shape=doublecircle];
-
-    "About to EnterPlanMode?" -> "Already brainstormed?";
-    "Already brainstormed?" -> "Invoke brainstorming skill" [label="no"];
-    "Already brainstormed?" -> "Might any skill apply?" [label="yes"];
-    "Invoke brainstorming skill" -> "Might any skill apply?";
-
-    "User message received" -> "Might any skill apply?";
-    "Might any skill apply?" -> "Open relevant skill file" [label="yes, even 1%"];
-    "Might any skill apply?" -> "Respond (including clarifications)" [label="definitely not"];
-    "Open relevant skill file" -> "Announce: 'Using [skill] to [purpose]'";
-    "Announce: 'Using [skill] to [purpose]'" -> "Has checklist?";
-    "Has checklist?" -> "Create TodoWrite todo per item" [label="yes"];
-    "Has checklist?" -> "Follow skill exactly" [label="no"];
-    "Create TodoWrite todo per item" -> "Follow skill exactly";
-}
-```
 
 ## Red Flags
 
