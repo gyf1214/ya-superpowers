@@ -13,7 +13,7 @@ Load plan, review critically, execute all tasks, report when complete.
 
 **Note:** In this repository, this is the default implementation execution workflow.
 
-**Work hierarchy:** This skill executes planned `phase/workstream` work and multi-task `task` plans.
+**Work hierarchy:** This skill executes planned `phase/workstream` work and planned standalone `task` work.
 
 ## The Process
 

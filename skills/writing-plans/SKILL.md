@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: Use when executing a phase/workstream or any multi-task work that needs an explicit implementation plan before execution
+description: Use when executing a phase/workstream, or when a user asks for planning on a standalone task, before execution
 ---
 
 # Writing Plans
@@ -24,7 +24,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 Use this skill when:
 - A `phase` or `workstream` is being implemented.
-- A standalone `task` expands into multiple tasks/steps requiring coordination.
+- A standalone `task` explicitly requires a written plan.
 
 Do not require this skill for a truly standalone single-task request with no planning value.
 

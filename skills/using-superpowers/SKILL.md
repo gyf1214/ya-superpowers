@@ -29,15 +29,21 @@ In Codex environments, load the target `skills/<name>/SKILL.md` and follow it di
 
 ## Work Hierarchy First
 
-Before picking skills, classify the request using this hierarchy:
+Before picking skills, classify the request into exactly one of:
 
+- `project`
+- `multiple phases` (when already in a project branch)
+- `single phase/workstream`
+- `single task`
+
+Hierarchy terms:
 - `project -> phase/workstream -> task -> step`
 - Use `repository/repo` for workspace terminology.
 - `project`: dedicated branch effort, typically merged to `main` when closed.
 - `phase`: project-contained work item that requires full design -> planning -> execution.
 - `workstream`: phase-equivalent work item outside a project (less preferred, sometimes on `main`).
 - `task`: scoped unit of delivery; can be standalone or inside phase/workstream.
-- `step`: inseparable low-scope action.
+- `step`: implementation action unit inside a task.
 
 Branching and workflow requirements depend on this classification.
 
