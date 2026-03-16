@@ -18,7 +18,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 **Save plans to:** `scratch/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
 
-**Design input source:** Read the canonical feature/component design doc at `scratch/designs/<component-or-feature>.md` and use its `Migration / Pending Changes` section as the primary implementation-gap input.
+**Design input source:** Read the relevant approved design doc (typically `scratch/designs/<component-or-feature>.md`). If the plan includes design changes, use its `Pending Changes` section as the primary implementation-gap input.
 
 ## Work Hierarchy Fit
 
@@ -30,9 +30,10 @@ Do not require this skill for a truly standalone single-task request with no pla
 
 ## Scope Check
 
-If the design doc covers multiple independent subsystems, it should have been broken into sub-project design docs during brainstorming. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
+If the design doc covers multiple independent subsystems, it should have been broken into separate phase/workstream design docs during brainstorming. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
 
-If the canonical design doc has no `Migration / Pending Changes` section, add one before planning and capture approved unimplemented deltas there.
+If this phase/workstream requires design changes but the design doc is not updated and user-approved yet, stop planning and route back to `brainstorming`.
+If the design doc is already approved and unchanged for this phase/workstream, do not add design-doc update tasks for migration reconciliation.
 
 ## File Structure
 
@@ -45,7 +46,9 @@ Before defining tasks, map out which files will be created or modified and what 
 
 This structure informs the task decomposition. Each task should produce self-contained changes that make sense independently.
 
-Include the canonical design doc file in the plan's file map whenever implementation tasks will change migration status.
+Always include the relevant design doc in the plan's file map.
+- If implementation changes migration status, include explicit steps to update `Pending Changes`.
+- If implementation does not change design, mark the design doc as reference-only for this plan.
 
 ## Bite-Sized Task Granularity
 
@@ -63,7 +66,7 @@ Include the canonical design doc file in the plan's file map whenever implementa
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED: Use `executing-plans` to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
+**Execution Requirement:** Use `executing-plans` to implement this plan.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -75,7 +78,9 @@ Include the canonical design doc file in the plan's file map whenever implementa
 
 **Parent Context:** [project branch name or `independent`]
 
-**Design Reference:** [`scratch/designs/<component-or-feature>.md` or `none` with reason]
+**Design Reference:** [`scratch/designs/<component-or-feature>.md` or equivalent approved design doc path]
+
+**Design Doc Status In This Plan:** [`unchanged` | `updated`]
 
 ---
 ```
@@ -89,9 +94,9 @@ Include the canonical design doc file in the plan's file map whenever implementa
 - Create: `exact/path/to/file.py`
 - Modify: `exact/path/to/existing.py:123-145`
 - Test: `tests/exact/path/to/test.py`
-- Design Doc: `scratch/designs/<component-or-feature>.md` (update `Migration / Pending Changes` as items are implemented)
+- Design Doc: `scratch/designs/<component-or-feature>.md` (`reference-only` or `update Pending Changes` as items are implemented)
 
-- [ ] **Step 1: Write the failing test**
+**Step 1: Write the failing test**
 
 ```python
 def test_specific_behavior():
@@ -99,47 +104,54 @@ def test_specific_behavior():
     assert result == expected
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+**Step 2: Run test to verify it fails**
 
 Run: `pytest tests/path/test.py::test_name -v`
 Expected: FAIL with "function not defined"
 
-- [ ] **Step 3: Write minimal implementation**
+**Step 3: Write minimal implementation**
 
 ```python
 def function(input):
     return expected
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+**Step 4: Run test to verify it passes**
 
 Run: `pytest tests/path/test.py::test_name -v`
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+**Step 5: Commit**
 
 ```bash
 git add tests/path/test.py src/path/file.py
-git commit -m "feat: add specific feature"
+git commit -m "feat: add specific feature
+
+Co-authored-by: Codex <codex@openai.com>"
 ```
+
+**Step 6: Post-Commit Memory Consolidation**
+
+Run `memory-consolidation` immediately after each commit.
 ````
 
 ## Remember
 - Exact file paths always
 - Complete code in plan (not "add validation")
 - Exact commands with expected output
-- Reference relevant skills with @ syntax
+- Reference relevant skills by skill name (for example: `test-driven-development`, `executing-plans`, `verification-before-completion`)
 - DRY, YAGNI, TDD, frequent commits
-- Plan must include explicit steps to reconcile `Migration / Pending Changes` with completed implementation work
+- Plan must include explicit steps to reconcile `Pending Changes` with completed implementation work
 
 ## Plan Review Loop
 
 After completing each chunk of the plan:
 
 1. Run a structured review pass on the chunk (requirements coverage, file paths, test strategy, and dependency order).
-   - Confirm tasks implement items listed in `Migration / Pending Changes`
-   - Confirm completion criteria includes updating/removing implemented migration entries in the canonical design doc
-   - Provide to the review pass: chunk content, path to design document
+   - If `Design Doc Status In This Plan` is `updated`: confirm tasks implement items listed in `Pending Changes`
+   - If `Design Doc Status In This Plan` is `updated`: confirm completion criteria includes updating/removing implemented migration entries in the design doc
+   - If `Design Doc Status In This Plan` is `unchanged`: confirm no design-doc mutation steps are included
+   - Provide to the review pass: chunk content, path to design document, and design-doc status
 2. If ❌ Issues Found:
    - Fix the issues in the chunk
    - Re-run the review pass for that chunk

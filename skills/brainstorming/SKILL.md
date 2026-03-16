@@ -33,7 +33,7 @@ You MUST complete these items in order:
 5. **Update canonical design doc** — save to `scratch/designs/<component-or-feature>.md` (stable path, not time-based)
 6. **Design review loop** — run a structured self-review of the design doc (check requirements coverage, ambiguity, risks, and testability); revise until acceptable (max 5 iterations, then surface to human)
 7. **User reviews written design doc** — ask user to review the design doc before proceeding
-8. **Route to next workflow step** — follow `Handoff / Routing`
+8. **Route to next workflow step** — follow `Handoff and Routing`
 
 ## Process Flow
 
@@ -49,7 +49,7 @@ digraph brainstorming {
     "Review issues found?" [shape=diamond];
     "Revise design doc" [shape=box];
     "User reviews design doc?" [shape=diamond];
-    "Follow Handoff / Routing\n(design doc exists and user-approved)" [shape=doublecircle];
+    "Follow Handoff and Routing\n(design doc exists and user-approved)" [shape=doublecircle];
 
     "Explore repository context" -> "Ask clarifying questions";
     "Ask clarifying questions" -> "Propose 2-3 approaches";
@@ -63,11 +63,11 @@ digraph brainstorming {
     "Revise design doc" -> "Review design draft";
     "Review issues found?" -> "User reviews design doc?" [label="no"];
     "User reviews design doc?" -> "Revise design doc" [label="changes requested"];
-    "User reviews design doc?" -> "Follow Handoff / Routing\n(design doc exists and user-approved)" [label="approved"];
+    "User reviews design doc?" -> "Follow Handoff and Routing\n(design doc exists and user-approved)" [label="approved"];
 }
 ```
 
-**The terminal state is `Handoff / Routing` only after the design doc exists and the user has approved it.** Route to the next workflow step from there.
+**The terminal state is `Handoff and Routing` only after the design doc exists and the user has approved it.** Route to the next workflow step from there.
 
 ## The Process
 
@@ -117,7 +117,7 @@ digraph brainstorming {
   - (User preferences for design doc location override this default)
 - Do not create date-suffixed design docs as the default workflow
 - The canonical design doc should contain the latest approved design only
-- Include and maintain a dedicated `Migration / Pending Changes` section for approved but unimplemented deltas
+- Include and maintain a dedicated `Pending Changes` section for approved but unimplemented deltas
 - Write clearly and concisely
 
 **Design Review Loop:**
@@ -136,9 +136,9 @@ Wait for the user's response. If they request changes, make them and re-run the 
 
 **Implementation:**
 
-- Follow `Handoff / Routing` to choose the next workflow step.
+- Follow `Handoff and Routing` to choose the next workflow step.
 
-## Handoff / Routing
+## Handoff and Routing
 
 After brainstorming is complete (design doc written, reviewed, and user-approved), route by work type:
 
@@ -151,11 +151,11 @@ In all cases, do not start implementation before this routing decision is made.
 
 The canonical component/feature design doc should include:
 
-- `Overview / Scope`
+- `Overview and Scope`
 - `Target Design` (the intended steady state)
-- `Migration / Pending Changes` (approved, unimplemented work needed to reach target)
+- `Pending Changes` (approved, unimplemented work needed to reach target)
 
-`Migration / Pending Changes` is an active queue, not history. As work lands, implemented items must be removed or updated so this section reflects only remaining deltas.
+`Pending Changes` is an active queue, not history. As work lands, implemented items must be removed or updated so this section reflects only remaining deltas.
 
 ## Key Principles
 
