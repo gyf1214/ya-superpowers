@@ -74,9 +74,9 @@ digraph brainstorming {
 **Understanding the idea:**
 
 - Check out the current repository state first (files, docs, recent commits)
-- Before asking detailed questions, assess scope: if the request describes multiple independent subsystems (e.g., "build a platform with chat, file storage, billing, and analytics"), flag this immediately. Don't spend questions refining details of a project that needs to be decomposed first.
-- If the project is too large for a single design doc, help the user decompose into sub-projects: what are the independent pieces, how do they relate, what order should they be built? Then brainstorm the first sub-project through the normal design flow. Each sub-project gets its own design doc → plan → implementation cycle.
-- For appropriately-scoped projects, ask questions one at a time to refine the idea
+- Before asking detailed questions, assess scope: if the request describes multiple independent subsystems (e.g., "build a platform with chat, file storage, billing, and analytics"), flag this immediately. Don't spend questions refining details of work that should be split first.
+- If the request is too large for one design doc, decompose using this rule: if already in a `project`, split the work into `multiple phases`; if not in a `project`, suggest starting a new `project` for this request. Then brainstorm the first `phase` through the normal design flow. Each phase gets its own design doc -> plan -> implementation cycle.
+- For appropriately-scoped `phase/workstream` design work, ask questions one at a time to refine the idea
 - Prefer multiple choice questions when possible, but open-ended is fine too
 - Only one question per message - if a topic needs more exploration, break it into multiple questions
 - Focus on understanding: purpose, constraints, success criteria
@@ -143,7 +143,7 @@ Wait for the user's response. If they request changes, make them and re-run the 
 After brainstorming is complete (design doc written, reviewed, and user-approved), route by work type:
 
 - `phase/workstream`: invoke `writing-plans` before implementation.
-- `single task`: invoke `writing-plans` when a written plan is requested or needed; otherwise proceed directly to implementation workflow.
+- `single task`: invoke `writing-plans` when a written plan is requested or needed; otherwise proceed directly to implementation using `test-driven-development` for behavior changes and `verification-before-completion` before any completion claim.
 
 In all cases, do not start implementation before this routing decision is made.
 
