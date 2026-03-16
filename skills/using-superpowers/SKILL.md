@@ -47,6 +47,13 @@ Hierarchy terms:
 
 Branching and workflow requirements depend on this classification.
 
+Treat hierarchy as session state, not a one-time guess:
+- Reuse an already established classification when it still fits.
+- If new user input changes scope, reclassify explicitly.
+- If classification emerges during discussion, state the inferred class and continue.
+- If unclear and high-risk, ask one concise clarification question; otherwise choose best-fit and proceed.
+- Prefer this precedence: current explicit user statement -> persisted session memory -> current-request inference.
+
 ## The Rule
 
 **Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
