@@ -17,9 +17,11 @@ Load plan, review critically, execute all tasks, report when complete.
 
 ### Step 1: Load and Review Plan
 1. Read plan file
-2. Review critically - identify any questions or concerns about the plan
-3. If concerns: Raise them with your human partner before starting
-4. If no concerns: Create TodoWrite and proceed
+2. Read the referenced canonical spec file (`scratch/designs/<component-or-feature>.md`)
+3. Identify `Migration / Pending Changes` items mapped by this plan
+4. Review critically - identify any questions or concerns about the plan
+5. If concerns: Raise them with your human partner before starting
+6. If no concerns: Create TodoWrite and proceed
 
 ### Step 2: Execute Tasks
 
@@ -29,9 +31,14 @@ For each task:
 3. Run verifications as specified
 4. Mark as completed
 
+As migration items are implemented:
+- Update the canonical spec's `Migration / Pending Changes` section so implemented items are removed or marked as resolved
+- Keep only still-unimplemented deltas in that section
+
 ### Step 3: Close the Project Cycle
 
 After all tasks complete and verified:
+- Re-open canonical spec and confirm `Migration / Pending Changes` is reconciled with delivered work
 - Announce: "I'm using the finishing-a-project skill to close this work."
 - **REQUIRED SUB-SKILL:** Use finishing-a-project
 - Follow that skill to verify tests/git status and create the project-closing document
@@ -59,6 +66,7 @@ After all tasks complete and verified:
 - Follow plan steps exactly
 - Don't skip verifications
 - Reference skills when plan says to
+- Keep canonical spec migration section synchronized with implementation progress
 - Stop when blocked, don't guess
 - Never start implementation on main/master branch without explicit user consent
 

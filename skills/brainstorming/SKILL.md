@@ -26,7 +26,7 @@ You MUST create a task for each of these items and complete them in order:
 3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
 4. **Propose 2-3 approaches** — with trade-offs and your recommendation
 5. **Present design** — in sections scaled to their complexity, get user approval after each section
-6. **Write design doc** — save to `scratch/designs/YYYY-MM-DD-<topic>-design.md`
+6. **Update canonical design doc** — save to `scratch/designs/<component-or-feature>.md` (stable path, not time-based)
 7. **Spec review loop** — run a structured self-review of the spec (check requirements coverage, ambiguity, risks, and testability); revise until acceptable (max 5 iterations, then surface to human)
 8. **User reviews written spec** — ask user to review the spec file before proceeding
 9. **Transition to implementation** — invoke writing-plans skill to create implementation plan
@@ -42,7 +42,7 @@ digraph brainstorming {
     "Propose 2-3 approaches" [shape=box];
     "Present design sections" [shape=box];
     "User approves design?" [shape=diamond];
-    "Write design doc" [shape=box];
+    "Update canonical design doc" [shape=box];
     "Spec review loop" [shape=box];
     "Spec review passed?" [shape=diamond];
     "User reviews spec?" [shape=diamond];
@@ -56,12 +56,12 @@ digraph brainstorming {
     "Propose 2-3 approaches" -> "Present design sections";
     "Present design sections" -> "User approves design?";
     "User approves design?" -> "Present design sections" [label="no, revise"];
-    "User approves design?" -> "Write design doc" [label="yes"];
-    "Write design doc" -> "Spec review loop";
+    "User approves design?" -> "Update canonical design doc" [label="yes"];
+    "Update canonical design doc" -> "Spec review loop";
     "Spec review loop" -> "Spec review passed?";
     "Spec review passed?" -> "Spec review loop" [label="issues found,\nfix and re-dispatch"];
     "Spec review passed?" -> "User reviews spec?" [label="approved"];
-    "User reviews spec?" -> "Write design doc" [label="changes requested"];
+    "User reviews spec?" -> "Update canonical design doc" [label="changes requested"];
     "User reviews spec?" -> "Invoke writing-plans skill" [label="approved"];
 }
 ```
@@ -111,8 +111,12 @@ digraph brainstorming {
 
 **Documentation:**
 
-- Write the validated design (spec) to `scratch/designs/YYYY-MM-DD-<topic>-design.md`
+- Maintain one canonical spec document per component/feature at a stable path:
+  - `scratch/designs/<component-or-feature>.md`
   - (User preferences for spec location override this default)
+- Do not create date-suffixed design docs as the default workflow
+- The canonical spec should be spec-facing and contain the latest approved design only
+- Include and maintain a dedicated `Migration / Pending Changes` section for approved but unimplemented deltas
 - Use elements-of-style:writing-clearly-and-concisely skill if available
 
 **Spec Review Loop:**
@@ -133,6 +137,16 @@ Wait for the user's response. If they request changes, make them and re-run the 
 
 - Invoke the writing-plans skill to create a detailed implementation plan
 - Do NOT invoke any other skill. writing-plans is the next step.
+
+## Canonical Spec Structure
+
+The canonical component/feature spec should include:
+
+- `Overview / Scope`
+- `Target Design` (the intended steady state)
+- `Migration / Pending Changes` (approved, unimplemented work needed to reach target)
+
+`Migration / Pending Changes` is an active queue, not history. As work lands, implemented items must be removed or updated so this section reflects only remaining deltas.
 
 ## Key Principles
 
