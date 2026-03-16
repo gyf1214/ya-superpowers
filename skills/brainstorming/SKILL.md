@@ -33,7 +33,7 @@ You MUST complete these items in order:
 5. **Update canonical design doc** — save to `scratch/designs/<component-or-feature>.md` (stable path, not time-based)
 6. **Design review loop** — run a structured self-review of the design doc (check requirements coverage, ambiguity, risks, and testability); revise until acceptable (max 5 iterations, then surface to human)
 7. **User reviews written design doc** — ask user to review the design doc before proceeding
-8. **Transition to implementation** — invoke writing-plans skill to create implementation plan
+8. **Route to next workflow step** — follow `Handoff / Routing`
 
 ## Process Flow
 
@@ -49,7 +49,7 @@ digraph brainstorming {
     "Review issues found?" [shape=diamond];
     "Revise design doc" [shape=box];
     "User reviews design doc?" [shape=diamond];
-    "Invoke writing-plans skill\n(design doc exists and user-approved)" [shape=doublecircle];
+    "Follow Handoff / Routing\n(design doc exists and user-approved)" [shape=doublecircle];
 
     "Explore repository context" -> "Ask clarifying questions";
     "Ask clarifying questions" -> "Propose 2-3 approaches";
@@ -63,11 +63,11 @@ digraph brainstorming {
     "Revise design doc" -> "Review design draft";
     "Review issues found?" -> "User reviews design doc?" [label="no"];
     "User reviews design doc?" -> "Revise design doc" [label="changes requested"];
-    "User reviews design doc?" -> "Invoke writing-plans skill\n(design doc exists and user-approved)" [label="approved"];
+    "User reviews design doc?" -> "Follow Handoff / Routing\n(design doc exists and user-approved)" [label="approved"];
 }
 ```
 
-**The terminal state is invoking writing-plans only after the design doc exists and the user has approved it.** Do NOT invoke any other implementation skill. The ONLY skill you invoke after brainstorming is writing-plans.
+**The terminal state is `Handoff / Routing` only after the design doc exists and the user has approved it.** Route to the next workflow step from there.
 
 ## The Process
 
@@ -136,8 +136,16 @@ Wait for the user's response. If they request changes, make them and re-run the 
 
 **Implementation:**
 
-- Invoke the writing-plans skill to create a detailed implementation plan
-- Do NOT invoke any other skill. writing-plans is the next step.
+- Follow `Handoff / Routing` to choose the next workflow step.
+
+## Handoff / Routing
+
+After brainstorming is complete (design doc written, reviewed, and user-approved), route by work type:
+
+- `phase/workstream`: invoke `writing-plans` before implementation.
+- `single task`: invoke `writing-plans` when a written plan is requested or needed; otherwise proceed directly to implementation workflow.
+
+In all cases, do not start implementation before this routing decision is made.
 
 ## Canonical Design Doc Structure
 
