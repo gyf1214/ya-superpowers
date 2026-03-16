@@ -18,7 +18,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 **Save plans to:** `scratch/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
 
-**Design input source:** Read the canonical feature/component spec at `scratch/designs/<component-or-feature>.md` and use its `Migration / Pending Changes` section as the primary implementation-gap input.
+**Design input source:** Read the canonical feature/component design doc at `scratch/designs/<component-or-feature>.md` and use its `Migration / Pending Changes` section as the primary implementation-gap input.
 
 ## Work Hierarchy Fit
 
@@ -30,9 +30,9 @@ Do not require this skill for a truly standalone single-task request with no pla
 
 ## Scope Check
 
-If the spec covers multiple independent subsystems, it should have been broken into sub-project specs during brainstorming. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
+If the design doc covers multiple independent subsystems, it should have been broken into sub-project design docs during brainstorming. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
 
-If the canonical spec has no `Migration / Pending Changes` section, add one before planning and capture approved unimplemented deltas there.
+If the canonical design doc has no `Migration / Pending Changes` section, add one before planning and capture approved unimplemented deltas there.
 
 ## File Structure
 
@@ -45,7 +45,7 @@ Before defining tasks, map out which files will be created or modified and what 
 
 This structure informs the task decomposition. Each task should produce self-contained changes that make sense independently.
 
-Include the canonical spec file in the plan's file map whenever implementation tasks will change migration status.
+Include the canonical design doc file in the plan's file map whenever implementation tasks will change migration status.
 
 ## Bite-Sized Task Granularity
 
@@ -89,7 +89,7 @@ Include the canonical spec file in the plan's file map whenever implementation t
 - Create: `exact/path/to/file.py`
 - Modify: `exact/path/to/existing.py:123-145`
 - Test: `tests/exact/path/to/test.py`
-- Spec: `scratch/designs/<component-or-feature>.md` (update `Migration / Pending Changes` as items are implemented)
+- Design Doc: `scratch/designs/<component-or-feature>.md` (update `Migration / Pending Changes` as items are implemented)
 
 - [ ] **Step 1: Write the failing test**
 
@@ -138,8 +138,8 @@ After completing each chunk of the plan:
 
 1. Run a structured review pass on the chunk (requirements coverage, file paths, test strategy, and dependency order).
    - Confirm tasks implement items listed in `Migration / Pending Changes`
-   - Confirm completion criteria includes updating/removing implemented migration entries in the canonical spec
-   - Provide to the review pass: chunk content, path to spec document
+   - Confirm completion criteria includes updating/removing implemented migration entries in the canonical design doc
+   - Provide to the review pass: chunk content, path to design document
 2. If ❌ Issues Found:
    - Fix the issues in the chunk
    - Re-run the review pass for that chunk
