@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: Use when you have a written implementation plan to execute in a separate session with review checkpoints
+description: Use when executing a written implementation plan
 ---
 
 # Executing Plans
@@ -20,10 +20,12 @@ Load plan, review critically, execute all tasks, report when complete.
 ### Step 1: Load and Review Plan
 1. Read plan file
 2. Read the referenced canonical design doc file (`scratch/designs/<component-or-feature>.md`)
-3. Identify `Migration / Pending Changes` items mapped by this plan
-4. Review critically - identify any questions or concerns about the plan
-5. If concerns: Raise them with your human partner before starting
-6. If no concerns: Create TodoWrite and proceed
+3. Read `Design Doc Status In This Plan` (`unchanged` or `updated`) from the plan header
+4. If status is `updated`, identify mapped `Pending Changes` items
+5. If status is `unchanged`, treat the design doc as reference-only for this execution run
+6. Review critically - identify any questions or concerns about the plan
+7. If concerns: Raise them with your human partner before starting
+8. If no concerns: Create and maintain a task checklist and proceed
 
 ### Step 2: Execute Tasks
 
@@ -33,14 +35,15 @@ For each task:
 3. Run verifications as specified
 4. Mark as completed
 
-As migration items are implemented:
-- Update the canonical design doc's `Migration / Pending Changes` section so implemented items are removed or marked as resolved
+If the plan header says `Design Doc Status In This Plan: updated`:
+- As mapped `Pending Changes` items are implemented, update the canonical design doc's `Pending Changes` section
 - Keep only still-unimplemented deltas in that section
 
 ### Step 3: Close the Project Cycle
 
 After all tasks complete and verified:
-- Re-open canonical design doc and confirm `Migration / Pending Changes` is reconciled with delivered work
+- If plan status is `updated`, re-open canonical design doc and confirm `Pending Changes` is reconciled with delivered work
+- If plan status is `unchanged`, confirm no design-doc mutation was performed during execution
 - If this plan is part of a `project` branch closure:
   - Announce: "I'm using the finishing-a-project skill to close this work."
   - **REQUIRED SUB-SKILL:** Use finishing-a-project
@@ -71,7 +74,9 @@ After all tasks complete and verified:
 - Follow plan steps exactly
 - Don't skip verifications
 - Reference skills when plan says to
-- Keep canonical design doc migration section synchronized with implementation progress
+- Respect `Design Doc Status In This Plan`:
+  - `updated`: keep canonical design doc `Pending Changes` synchronized with implementation progress
+  - `unchanged`: keep design doc reference-only
 - Stop when blocked, don't guess
 - Never start implementation on main/master branch without explicit user consent
 
