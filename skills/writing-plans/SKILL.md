@@ -145,32 +145,25 @@ Run `memory-consolidation` immediately after each commit.
 
 ## Plan Review Loop
 
-After completing each chunk of the plan:
+After drafting the full plan:
 
-1. Run a structured review pass on the chunk (requirements coverage, file paths, test strategy, and dependency order).
-   - If `Design Doc Status In This Plan` is `updated`: confirm tasks implement items listed in `Pending Changes`
-   - If `Design Doc Status In This Plan` is `updated`: confirm completion criteria includes updating/removing implemented migration entries in the design doc
-   - If `Design Doc Status In This Plan` is `unchanged`: confirm no design-doc mutation steps are included
-   - Provide to the review pass: chunk content, path to design document, and design-doc status
-2. If ❌ Issues Found:
-   - Fix the issues in the chunk
-   - Re-run the review pass for that chunk
-   - Repeat until ✅ Approved
-3. If ✅ Approved: proceed to next chunk (or execution handoff if last chunk)
-
-**Chunk boundaries:** Use `## Chunk N: <name>` headings to delimit chunks. Each chunk should be ≤1000 lines and logically self-contained.
-
-**Review loop guidance:**
-- Same agent that wrote the plan fixes it (preserves context)
-- If loop exceeds 5 iterations, surface to human for guidance
-- Reviewers are advisory - explain disagreements if you believe feedback is incorrect
+1. Run a structured self-review on the plan and verify all checks below:
+   - Scope coverage: every task maps to the goal and design reference.
+   - Path clarity: create/modify/test paths are concrete and valid for the repository.
+   - Test flow: behavior changes include failing-test -> implementation -> passing-test steps.
+   - Task order: prerequisites come before dependent tasks.
+   - Design-doc alignment:
+     - `updated`: tasks map to `Pending Changes` and include reconciliation steps.
+     - `unchanged`: no design-doc mutation steps are included.
+2. If issues are found:
+   - Fix the issues in the plan
+   - Re-run the self-review
+   - Repeat until the plan passes
+3. When the plan passes, proceed to handoff.
+4. If the loop exceeds 5 iterations, stop and ask the user for guidance.
 
 ## Execution Handoff
 
 After saving the plan:
 
-**"Plan complete and saved to `scratch/plans/<filename>.md`. Ready to execute?"**
-
-**Execution path:**
-- Execute plan in current session using executing-plans
-- Batch execution with checkpoints for review
+**"Plan complete and saved to `scratch/plans/<filename>.md`. Waiting for your instruction to execute."**
