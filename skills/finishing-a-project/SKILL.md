@@ -38,7 +38,7 @@ If tests fail, stop and report blockers before closing.
 
 ### Step 2: Write project-closing document
 
-Create `docs/project-closure/YYYY-MM-DD-<topic>-closure.md` with these sections:
+Create `scratch/notes/YYYY-MM-DD-<topic>-closure.md` with these sections:
 
 1. `Summary`
 - what was completed in this project cycle
