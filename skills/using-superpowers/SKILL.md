@@ -27,25 +27,27 @@ In Codex environments, load the target `skills/<name>/SKILL.md` and follow it di
 
 # Using Skills
 
+## Understand the Current Situation
+
+Before classifying work:
+
+1. Use session history and the current user request.
+2. If still unclear, check `MEMORY.md`, then `git status`.
+
 ## Work Hierarchy First
 
-Before picking skills, classify the request into exactly one of:
+This section applies only to requests that cause repository changes (not read-only requests like debugging or code review).
+
+General change workflow: classify work -> design -> plan -> execution.
+
+Classify the request into exactly one of:
 
 - `project`
 - `multiple phases` (when already in a project branch)
 - `single phase/workstream`
 - `single task`
 
-Hierarchy terms:
-- `project -> phase/workstream -> task -> step`
-- Use `repository/repo` for workspace terminology.
-- `project`: dedicated branch effort, typically merged to `main` when closed.
-- `phase`: project-contained work item that requires full design -> planning -> execution.
-- `workstream`: phase-equivalent work item outside a project (less preferred, sometimes on `main`).
-- `task`: scoped unit of delivery; can be standalone or inside phase/workstream.
-- `step`: implementation action unit inside a task.
-
-Branching and workflow requirements depend on this classification.
+Use `repository/repo` for workspace terminology.
 
 Treat hierarchy as session state, not a one-time guess:
 - Reuse an already established classification when it still fits.
