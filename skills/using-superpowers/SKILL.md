@@ -57,6 +57,8 @@ Treat hierarchy as session state:
 
 ## The Rule
 
+**You MUST understand the classification of your work before making any changes. Then follow the intended workflow.**
+
 **Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
 
 ## Red Flags
