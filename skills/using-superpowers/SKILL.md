@@ -35,7 +35,7 @@ Before classifying:
 
 ## Work Hierarchy First
 
-Only for change-causing requests (not read-only requests such as debugging/code review).
+Only for change-causing requests (for read-only requests such as debugging/code review, follow the relevant skill's description).
 
 Workflow: classify -> design -> plan -> execution.
 
@@ -85,7 +85,7 @@ These thoughts mean STOP—you're rationalizing:
 When multiple skills could apply, use this order:
 
 1. **Process skills first** (classification, brainstorming, debugging) - these determine HOW to approach the task
-2. **Implementation skills second** (frontend-design, mcp-builder) - these guide execution
+2. **Implementation skills second** (for example `test-driven-development`, `verification-before-completion`) - these guide execution quality
 
 "Let's build X as a phase/workstream" → brainstorming first, then writing-plans, then execution.
 "Fix this bug" → debugging first, then domain-specific skills.
@@ -99,5 +99,7 @@ Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
 - Design -> `brainstorming`
 - Plan -> `writing-plans`
 - Execution -> `executing-plans` (when executing a written plan)
+- Behavior changes during implementation -> `test-driven-development`
+- Before claiming completion/passing -> `verification-before-completion`
 - If already in the middle of an active workflow, continue it.
 - Read-only examples: bug investigation -> `systematic-debugging`; code review -> `requesting-code-review` or `receiving-code-review`
