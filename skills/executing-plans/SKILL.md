@@ -13,6 +13,8 @@ Load plan, review critically, execute all tasks, report when complete.
 
 **Note:** In this repository, this is the default implementation execution workflow.
 
+**Work hierarchy:** This skill executes planned `phase/workstream` work and multi-task `task` plans.
+
 ## The Process
 
 ### Step 1: Load and Review Plan
@@ -39,9 +41,12 @@ As migration items are implemented:
 
 After all tasks complete and verified:
 - Re-open canonical spec and confirm `Migration / Pending Changes` is reconciled with delivered work
-- Announce: "I'm using the finishing-a-project skill to close this work."
-- **REQUIRED SUB-SKILL:** Use finishing-a-project
-- Follow that skill to verify tests/git status and create the project-closing document
+- If this plan is part of a `project` branch closure:
+  - Announce: "I'm using the finishing-a-project skill to close this work."
+  - **REQUIRED SUB-SKILL:** Use finishing-a-project
+  - Follow that skill to verify tests/git status and create the project-closing document
+- If this plan is an independent workstream/task:
+  - Run verification-before-completion checks and report completion evidence without project-closure doc unless requested
 
 ## When to Stop and Ask for Help
 
@@ -74,4 +79,4 @@ After all tasks complete and verified:
 
 **Required workflow skills:**
 - **writing-plans** - Creates the plan this skill executes
-- **finishing-a-project** - Close implementation cycle after all tasks
+- **finishing-a-project** - Required when closing a project branch

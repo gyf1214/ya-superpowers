@@ -21,6 +21,11 @@ Write the test first. Watch it fail. Write minimal code to pass.
 - Refactoring
 - Behavior changes
 
+**Hierarchy mapping:**
+- `phase/workstream` tasks with behavior changes: required unless user overrides
+- Standalone behavioral task: strongly preferred default
+- Non-behavioral tasks (docs/chore/mechanical rename): usually not required
+
 **Exceptions (ask your human partner):**
 - Throwaway prototypes
 - Generated code

@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: Use when you have a spec or requirements for a multi-step task, before touching code
+description: Use when executing a phase/workstream or any multi-task work that needs an explicit implementation plan before execution
 ---
 
 # Writing Plans
@@ -19,6 +19,14 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 - (User preferences for plan location override this default)
 
 **Design input source:** Read the canonical feature/component spec at `scratch/designs/<component-or-feature>.md` and use its `Migration / Pending Changes` section as the primary implementation-gap input.
+
+## Work Hierarchy Fit
+
+Use this skill when:
+- A `phase` or `workstream` is being implemented.
+- A standalone `task` expands into multiple tasks/steps requiring coordination.
+
+Do not require this skill for a truly standalone single-task request with no planning value.
 
 ## Scope Check
 
@@ -62,6 +70,12 @@ Include the canonical spec file in the plan's file map whenever implementation t
 **Architecture:** [2-3 sentences about approach]
 
 **Tech Stack:** [Key technologies/libraries]
+
+**Work Level:** [phase | workstream | task]
+
+**Parent Context:** [project branch name or `independent`]
+
+**Design Reference:** [`scratch/designs/<component-or-feature>.md` or `none` with reason]
 
 ---
 ```

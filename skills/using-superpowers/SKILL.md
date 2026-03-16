@@ -27,6 +27,20 @@ In Codex environments, load the target `skills/<name>/SKILL.md` and follow it di
 
 # Using Skills
 
+## Work Hierarchy First
+
+Before picking skills, classify the request using this hierarchy:
+
+- `project -> phase/workstream -> task -> step`
+- Use `repository/repo` for workspace terminology.
+- `project`: dedicated branch effort, typically merged to `main` when closed.
+- `phase`: project-contained work item that requires full design -> planning -> execution.
+- `workstream`: phase-equivalent work item outside a project (less preferred, sometimes on `main`).
+- `task`: scoped unit of delivery; can be standalone or inside phase/workstream.
+- `step`: inseparable low-scope action.
+
+Branching and workflow requirements depend on this classification.
+
 ## The Rule
 
 **Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
@@ -84,10 +98,10 @@ These thoughts mean STOP—you're rationalizing:
 
 When multiple skills could apply, use this order:
 
-1. **Process skills first** (brainstorming, debugging) - these determine HOW to approach the task
+1. **Process skills first** (classification, brainstorming, debugging) - these determine HOW to approach the task
 2. **Implementation skills second** (frontend-design, mcp-builder) - these guide execution
 
-"Let's build X" → brainstorming first, then implementation skills.
+"Let's build X as a phase/workstream" → brainstorming first, then writing-plans, then execution.
 "Fix this bug" → debugging first, then domain-specific skills.
 
 ## Skill Types

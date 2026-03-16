@@ -1,6 +1,6 @@
 ---
 name: finishing-a-project
-description: Use when implementation work is complete and you need to close the project with final verification and a project-closing document
+description: Use when a project branch is being closed and you need final verification plus a project-closing document
 ---
 
 # Finishing a Project
@@ -10,6 +10,8 @@ description: Use when implementation work is complete and you need to close the 
 Close implementation work with evidence and a clear handoff.
 
 **Core principle:** Verify baseline state -> write project-closing document.
+
+**Scope:** This skill closes `project`-level work (dedicated branch). For independent workstreams/tasks, use verification-before-completion unless the user asks for a closure note.
 
 **Announce at start:** "I'm using the finishing-a-project skill to close this work."
 
