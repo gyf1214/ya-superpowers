@@ -90,14 +90,14 @@ When multiple skills could apply, use this order:
 "Let's build X as a phase/workstream" → brainstorming first, then writing-plans, then execution.
 "Fix this bug" → debugging first, then domain-specific skills.
 
-## Skill Types
-
-**Rigid** (TDD, debugging): Follow exactly. Don't adapt away discipline.
-
-**Flexible** (patterns): Adapt principles to context.
-
-The skill itself tells you which.
-
 ## User Instructions
 
 Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
+
+## Routing
+
+- Design -> `brainstorming`
+- Plan -> `writing-plans`
+- Execution -> `executing-plans` (when executing a written plan)
+- If already in the middle of an active workflow, continue it.
+- Read-only examples: bug investigation -> `systematic-debugging`; code review -> `requesting-code-review` or `receiving-code-review`
