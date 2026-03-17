@@ -19,13 +19,15 @@ Load plan, review critically, execute all tasks, report when complete.
 
 ### Step 1: Load and Review Plan
 1. Read plan file
-2. Read the referenced canonical design doc file (`scratch/designs/<component-or-feature>.md`)
-3. Read `Design Doc Status In This Plan` (`unchanged` or `updated`) from the plan header
-4. If status is `updated`, identify mapped `Pending Changes` items
-5. If status is `unchanged`, treat the design doc as reference-only for this execution run
-6. Review critically - identify any questions or concerns about the plan
-7. If concerns: Raise them with your human partner before starting
-8. If no concerns: Create and maintain a task checklist and proceed
+2. Run `git status --short --branch` to verify current branch and worktree status
+3. Confirm the current workspace is aligned with the plan header (`Work Level`, `Parent Context`, and intended execution scope)
+4. Read the referenced canonical design doc file (`scratch/designs/<component-or-feature>.md`)
+5. Read `Design Doc Status In This Plan` (`unchanged` or `updated`) from the plan header
+6. If status is `updated`, identify mapped `Pending Changes` items
+7. If status is `unchanged`, treat the design doc as reference-only for this execution run
+8. Review critically - identify any questions or concerns about the plan
+9. If concerns: Raise them with your human partner before starting
+10. If no concerns: Create and maintain a task checklist and proceed
 
 ### Step 2: Execute Tasks
 
@@ -39,17 +41,27 @@ If the plan header says `Design Doc Status In This Plan: updated`:
 - As mapped `Pending Changes` items are implemented, update the canonical design doc's `Pending Changes` section
 - Keep only still-unimplemented deltas in that section
 
-### Step 3: Close the Project Cycle
+### Step 3: Reconcile Execution State
 
 After all tasks complete and verified:
 - If plan status is `updated`, re-open canonical design doc and confirm `Pending Changes` is reconciled with delivered work
 - If plan status is `unchanged`, confirm no design-doc mutation was performed during execution
-- If this plan is part of a `project` branch closure:
-  - Announce: "I'm using the finishing-a-project skill to close this work."
-  - **REQUIRED SUB-SKILL:** Use finishing-a-project
-  - Follow that skill to verify tests/git status and create the project-closing document
-- If this plan is an independent workstream/task:
-  - Run verification-before-completion checks and report completion evidence without project-closure doc unless requested
+
+### Step 4: User Feedback And Consolidation
+
+- Present execution results and unresolved items to the user, then go through open questions one by one
+- If user feedback requires changes, apply them and re-verify affected work before finishing this step
+- Ask the user what the next work should be, then record that next work
+- Run `memory-consolidation` after user feedback is addressed
+
+## Post-Execution Next-Work Confirmation
+
+After Step 4 is complete (including `memory-consolidation`):
+- Wait for user instruction to start the recorded next work.
+- Common next-work examples:
+  - `finishing-a-project`
+  - code review
+  - begin a new phase/workstream
 
 ## When to Stop and Ask for Help
 
@@ -61,14 +73,6 @@ After all tasks complete and verified:
 
 **Ask for clarification rather than guessing.**
 
-## When to Revisit Earlier Steps
-
-**Return to Review (Step 1) when:**
-- Partner updates the plan based on your feedback
-- Fundamental approach needs rethinking
-
-**Don't force through blockers** - stop and ask.
-
 ## Remember
 - Review plan critically first
 - Follow plan steps exactly
@@ -78,10 +82,3 @@ After all tasks complete and verified:
   - `updated`: keep canonical design doc `Pending Changes` synchronized with implementation progress
   - `unchanged`: keep design doc reference-only
 - Stop when blocked, don't guess
-- Never start implementation on main/master branch without explicit user consent
-
-## Integration
-
-**Required workflow skills:**
-- **writing-plans** - Creates the plan this skill executes
-- **finishing-a-project** - Required when closing a project branch

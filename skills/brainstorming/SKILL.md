@@ -33,7 +33,8 @@ You MUST complete these items in order:
 5. **Update canonical design doc** — save to `scratch/designs/<component-or-feature>.md` (stable path, not time-based)
 6. **Design review loop** — run a structured self-review of the design doc (check requirements coverage, ambiguity, risks, and testability); revise until acceptable (max 5 iterations, then surface to human)
 7. **User reviews written design doc** — ask user to review the design doc before proceeding
-8. **Route to next workflow step** — follow `Handoff and Routing`
+8. **End-of-boundary closeout** — after design approval, complete the closeout steps in `After the Design`
+9. **Route to next work** — follow `Next Work Routing`
 
 ## Process Flow
 
@@ -49,7 +50,8 @@ digraph brainstorming {
     "Review issues found?" [shape=diamond];
     "Revise design doc" [shape=box];
     "User reviews design doc?" [shape=diamond];
-    "Follow Handoff and Routing\n(design doc exists and user-approved)" [shape=doublecircle];
+    "Run memory-consolidation" [shape=box];
+    "Follow Next Work Routing\n(after consolidation)" [shape=doublecircle];
 
     "Explore repository context" -> "Ask clarifying questions";
     "Ask clarifying questions" -> "Propose 2-3 approaches";
@@ -63,11 +65,12 @@ digraph brainstorming {
     "Revise design doc" -> "Review design draft";
     "Review issues found?" -> "User reviews design doc?" [label="no"];
     "User reviews design doc?" -> "Revise design doc" [label="changes requested"];
-    "User reviews design doc?" -> "Follow Handoff and Routing\n(design doc exists and user-approved)" [label="approved"];
+    "User reviews design doc?" -> "Run memory-consolidation" [label="approved"];
+    "Run memory-consolidation" -> "Follow Next Work Routing\n(after consolidation)";
 }
 ```
 
-**The terminal state is `Handoff and Routing` only after the design doc exists and the user has approved it.** Route to the next workflow step from there.
+**Expected terminal state: `Next Work Routing` is reached only after the design doc exists, the user has approved it, and `memory-consolidation` has run.**
 
 ## The Process
 
@@ -134,18 +137,24 @@ After the design review loop passes, ask the user to review the written design d
 
 Wait for the user's response. If they request changes, make them and re-run the design review loop. Only proceed once the user approves.
 
+**End-of-Boundary Closeout (after user approval):**
+
+1. Determine the next work using `Next Work Routing`.
+2. Record that next work.
+3. Run `memory-consolidation`.
+
 **Implementation:**
 
-- Follow `Handoff and Routing` to choose the next workflow step.
+- Follow `Next Work Routing` to determine the next work.
 
-## Handoff and Routing
+## Next Work Routing
 
-After brainstorming is complete (design doc written, reviewed, and user-approved), route by work type:
+After brainstorming is complete (design doc written, reviewed, user-approved, and `memory-consolidation` run), route by work type:
 
 - `phase/workstream`: invoke `writing-plans` before implementation.
 - `single task`: invoke `writing-plans` when a written plan is requested or needed; otherwise proceed directly to implementation using `test-driven-development` for behavior changes and `verification-before-completion` before any completion claim.
 
-In all cases, do not start implementation before this routing decision is made.
+In all cases, do not start implementation before this next-work decision is made.
 
 ## Canonical Design Doc Structure
 

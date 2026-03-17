@@ -129,10 +129,6 @@ git commit -m "feat: add specific feature
 
 Co-authored-by: Codex <codex@openai.com>"
 ```
-
-**Step 6: Post-Commit Memory Consolidation**
-
-Run `memory-consolidation` immediately after each commit.
 ````
 
 ## Remember
@@ -159,11 +155,29 @@ After drafting the full plan:
    - Fix the issues in the plan
    - Re-run the self-review
    - Repeat until the plan passes
-3. When the plan passes, proceed to handoff.
+3. When the plan passes, proceed to next-work confirmation.
 4. If the loop exceeds 5 iterations, stop and ask the user for guidance.
 
-## Execution Handoff
+## Post-Review User Feedback
+
+After the plan review loop passes:
+
+1. Go through unresolved planning open questions one by one with the user.
+2. For each question:
+   - If the user decides, update the plan accordingly.
+   - If no decision is made, keep it explicit in the plan as an open item.
+3. Repeat until all currently known open questions are addressed or explicitly tracked.
+
+## End-of-Boundary Consolidation And Next-Work Confirmation
+
+After the post-review user feedback step:
+
+1. Record next work: execute this plan using `executing-plans`.
+2. Run `memory-consolidation`.
+3. Request user confirmation before starting the recorded next work.
+
+## Next-Work Confirmation
 
 After saving the plan:
 
-**"Plan complete and saved to `scratch/plans/<filename>.md`. Waiting for your instruction to execute."**
+**"Plan complete and saved to `scratch/plans/<filename>.md`. Open questions have been reviewed, next work is to execute this plan with `executing-plans`, and memory has been consolidated. Confirm and I will proceed."**
