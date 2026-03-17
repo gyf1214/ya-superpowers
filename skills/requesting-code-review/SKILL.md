@@ -5,9 +5,11 @@ description: Use when completing tasks, implementing major features, or before m
 
 # Requesting Code Review
 
-Request targeted review to catch issues before they cascade. Provide focused context so the review is based on code and requirements, not conversation history.
+Prepare a focused review request document and hand off to a separate review session.
 
 **Core principle:** Review early, review often.
+
+**Boundary:** This skill prepares the request only. It does not perform the review or process feedback.
 
 ## When to Request Review
 
@@ -28,82 +30,71 @@ BASE_SHA=$(git rev-parse HEAD~1)  # or origin/main
 HEAD_SHA=$(git rev-parse HEAD)
 ```
 
-**2. Prepare the review request:**
+**2. Create review request document:**
+- Path: `scratch/review_requests/YYYY-MM-DD-<topic>-review-request.md`
+- Keep review request artifacts local (do not commit them)
 
-Use the template at `requesting-code-review/code-reviewer.md` and include only the relevant context.
+Use this template:
 
-**Placeholders:**
-- `{WHAT_WAS_IMPLEMENTED}` - What you just built
-- `{PLAN_OR_REQUIREMENTS}` - What it should do
-- `{BASE_SHA}` - Starting commit
-- `{HEAD_SHA}` - Ending commit
-- `{DESCRIPTION}` - Brief summary
+```markdown
+# Code Review Request: <topic>
 
-**3. Act on feedback:**
-- Fix Critical issues immediately
-- Fix Important issues before proceeding
-- Note Minor issues for later
-- Push back if reviewer is wrong (with reasoning)
+## 1. Context
+- Task/Workstream: <name>
+- Goal: <what this change should achieve>
+- Requirements Source: <spec/issue/plan path or brief requirements>
 
-## Example
+## 2. Change Summary
+- What changed:
+  - <key change 1>
+  - <key change 2>
+- Why this approach:
+  - <brief rationale and key tradeoff>
 
+## 3. Diff Scope
+- Base SHA: `<sha>`
+- Head SHA: `<sha>`
+- Touched files:
+  - `<path1>` - <why touched>
+  - `<path2>` - <why touched>
+
+## 4. Reviewer Focus Items (Required)
+1. <question or focus statement>
+2. <question or focus statement>
+3. <question or focus statement>
+
+## 5. Validation Evidence
+- Tests run:
+  - `<command>` -> <result>
+- Manual checks:
+  - <what was verified>
+- Known limitations / not tested:
+  - <gaps reviewer should know>
+
+## 6. Review Output Location
+- Store review at: `scratch/review_requests/YYYY-MM-DD-<topic>-review.md`
 ```
-[Just completed Task 2: Add verification function]
 
-You: Let me request code review before proceeding.
+**3. Record next work**
+- Record next work as: `code review on request <request_path>`
+- Example: `code review on request scratch/review_requests/2026-03-17-auth-review-request.md`
 
-BASE_SHA=$(git log --oneline | grep "Task 1" | head -1 | awk '{print $1}')
-HEAD_SHA=$(git rev-parse HEAD)
+**4. Run closeout workflow**
+- Apply `Skill Closeout Workflow` from `using-superpowers`.
+- Keep unresolved items explicit.
+- Run `memory-consolidation`.
 
-[Submit review request]
-  WHAT_WAS_IMPLEMENTED: Verification and repair functions for conversation index
-  PLAN_OR_REQUIREMENTS: Task 2 from scratch/plans/deployment-plan.md
-  BASE_SHA: a7981ec
-  HEAD_SHA: 3df7661
-  DESCRIPTION: Added verifyIndex() and repairIndex() with 4 issue types
+**5. Announce handoff**
+- Tell the user to start a new session for the review task.
+- Include the request path in that handoff message.
 
-[Reviewer returns]:
-  Strengths: Clean architecture, real tests
-  Issues:
-    Important: Missing progress indicators
-    Minor: Magic number (100) for reporting interval
-  Assessment: Ready to proceed
+## Next Work
 
-You: [Fix progress indicators]
-[Continue to Task 3]
-```
-
-## Integration with Workflows
-
-**Executing Plans:**
-- Review after each batch (3 tasks)
-- Get feedback, apply, continue
-
-**When feedback returns:**
-- Run `receiving-code-review` first.
-- Classify accepted changes before implementation.
-- If `single task` changes design/behavior, route to `brainstorming` then execute (no planning phase).
-- If scope is `single phase/workstream` or larger, route to `brainstorming` -> `writing-plans` -> `executing-plans`.
-
-**Ad-Hoc Development:**
-- Review before merge
-- Review when stuck
-
-If you capture a written review summary for later follow-up, save it to:
-- `scratch/notes/YYYY-MM-DD-<topic>-review-notes.md`
-- Keep review notes local (do not commit them).
+`code review on request <request_path>`
 
 ## Red Flags
 
 **Never:**
 - Skip review because "it's simple"
-- Ignore Critical issues
-- Proceed with unfixed Important issues
-- Argue with valid technical feedback
-
-**If reviewer wrong:**
-- Push back with technical reasoning
-- Show code/tests that prove it works
-- Request clarification
-
-See template at: requesting-code-review/code-reviewer.md
+- Mix review execution rules into this request-preparation skill
+- Start implementing review feedback in the same request-preparation flow
