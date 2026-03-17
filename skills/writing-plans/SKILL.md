@@ -118,13 +118,9 @@ Do not hand off an unreviewed plan.
 
 After plan review passes:
 
-1. Walk unresolved planning questions one by one with user.
-2. Apply each user decision as it is made; if no decision is made, keep it explicit as an open item.
-3. Repeat steps 1-2 until all currently known unresolved planning questions are addressed or explicitly tracked.
-4. If user decisions materially change scope/order/verification, re-run the Plan Review Loop before handoff.
-5. Record next work: execute using `executing-plans`.
-6. Run `memory-consolidation`.
-7. Ask for confirmation before starting execution.
+1. Handle planning-specific deltas first: if user decisions materially change scope/order/verification, re-run the Plan Review Loop before handoff.
+2. Then run the canonical `Skill Closeout Workflow` from `using-superpowers`.
+3. Record next work as plan execution with `executing-plans`.
 
 Use this confirmation format:
 

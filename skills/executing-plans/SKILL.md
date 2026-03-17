@@ -75,13 +75,8 @@ Re-open affected files and verify this explicitly.
 
 1. Report implemented work, verification outcomes, and unresolved items.
 2. Include command-level verification evidence in the report, not only conclusions.
-3. Go through unresolved execution questions with the user one at a time.
-4. Apply each user decision as it is made; if no decision is made, keep it explicit as an open item.
-5. Repeat steps 3-4 until all currently known unresolved execution questions are addressed or explicitly tracked.
-6. Re-verify affected areas after follow-up changes.
-7. Ask user for next work and record it.
-8. Run `memory-consolidation` after feedback/questions are addressed.
-9. Wait for user instruction before starting recorded next work.
+3. Handle execution-specific follow-up: apply required changes and re-verify affected areas.
+4. Then run the canonical `Skill Closeout Workflow` from `using-superpowers`.
 
 ## Stop Conditions
 

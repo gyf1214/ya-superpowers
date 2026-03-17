@@ -33,11 +33,10 @@ Complete in order:
 6. Run design self-review for coverage, ambiguity, risk, and testability.
 7. Revise and re-review until acceptable.
 8. Ask user to review the written design doc and approve/revise.
-9. Record next work.
-10. Run `memory-consolidation`.
-11. Route to the next workflow step.
+9. Run the canonical `Skill Closeout Workflow` from `using-superpowers`.
+10. Route to the next workflow step.
 
-Do not skip steps. Do not route to implementation before step 10.
+Do not skip steps. Do not route to implementation before step 9 completes.
 
 ## Questioning Discipline
 
@@ -105,9 +104,11 @@ After self-review passes, ask for doc review before planning:
 
 If user requests changes, revise and re-run design quality loop.
 
-## Next Work Routing
+## Closeout And Next Work
 
-After design is approved and memory consolidation is done:
+After the design is approved, apply `Skill Closeout Workflow` in `using-superpowers`.
+
+Next work routing rules:
 
 - `phase/workstream` -> `writing-plans`
 - `single task` -> use `writing-plans` when planning is needed/requested; otherwise implement directly with `test-driven-development`, then run `verification-before-completion` before any completion claim

@@ -32,6 +32,8 @@ Default workflow: classify -> design -> plan -> execute.
 
 Use `repository/repo` terminology.
 
+For read-only requests (for example investigation, explanation, or review), select skills directly from the request type instead of forcing work-hierarchy classification.
+
 Treat classification as session state:
 
 - Reuse existing classification when still correct.
@@ -59,6 +61,20 @@ When multiple skills apply:
 - Code review flows -> `requesting-code-review` or `receiving-code-review`
 
 If already inside an active workflow, continue it unless the user changed scope.
+
+## Skill Closeout Workflow
+
+For workflow skills that end a boundary (for example design, planning, execution), use this canonical closeout contract:
+
+1. Report outcomes and unresolved items.
+2. Go through unresolved questions one at a time with the user.
+3. Apply each user decision immediately; if no decision is made, keep it explicit as an open item.
+4. Repeat until all currently known unresolved questions are addressed or explicitly tracked.
+5. Record next work.
+6. Run `memory-consolidation`.
+7. Confirm/wait for user instruction before starting recorded next work.
+
+If a workflow skill has phase-specific closeout steps, apply them in addition to this contract. If there is a conflict, this closeout contract wins unless the user explicitly overrides it.
 
 ## Red Flags
 
