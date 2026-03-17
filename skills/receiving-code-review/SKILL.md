@@ -30,7 +30,8 @@ Do not implement production fixes here. Triage the feedback, classify the result
    - Present suggested work package: name, classification, and source review document.
    - Explicitly include approve/change/reject/defer options.
 6. Decision handling
-   - If approved or changed: update work queue item and update review document only when scope direction changed.
+   - If approved or changed: update work queue item(s) and update review document only when scope direction changed.
+   - If classification is `multiple phases`, queue multiple items as needed so all approved follow-up work is represented.
    - If rejected: record outcome and do not dispatch.
    - If deferred: add a revisit item at the end of queue and do not dispatch.
 7. Closeout
@@ -127,6 +128,7 @@ Examples:
 ## After User Decision
 
 - If approved/changed: update work queue and update review document only when user-directed scope changes require it.
+- If classification is `multiple phases`: queue multiple items when needed so no approved phase/workstream is lost.
 - If rejected: record outcome and do not dispatch.
 - If deferred: add `Task revisit xxx review from <review doc>.md` at the end of queue, record outcome, and do not dispatch.
 - Run closeout workflow and wait for further instruction.
