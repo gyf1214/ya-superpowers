@@ -1,183 +1,141 @@
 ---
 name: writing-plans
-description: Use when executing a phase/workstream, or when a user asks for planning on a standalone task, before execution
+description: Use when phase/workstream implementation needs a written plan, or when a standalone task requires explicit planning, before execution.
 ---
 
 # Writing Plans
 
-## Overview
+Produce an executable plan that a skilled engineer with little repository context can follow without guesswork.
 
-Write comprehensive implementation plans assuming the engineer has zero context for our codebase and questionable taste. Document everything they need to know: which files to touch for each task, code, testing, docs they might need to check, how to test it. Give them the whole plan as bite-sized tasks. DRY. YAGNI. TDD. Frequent commits.
+Announce at start: "I'm using the writing-plans skill to create the implementation plan."
 
-Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
+Default plan location: `scratch/plans/YYYY-MM-DD-<feature-name>.md` (user preference overrides).
 
-**Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
+## When Required
 
-**Context:** This should run in a clean workspace or branch dedicated to the plan execution.
+Use this skill for:
 
-**Save plans to:** `scratch/plans/YYYY-MM-DD-<feature-name>.md`
-- (User preferences for plan location override this default)
+- `phase` or `workstream` implementation
+- standalone `task` work when user requests planning or planning value is high
 
-**Design input source:** Read the relevant approved design doc (typically `scratch/designs/<component-or-feature>.md`). If the plan includes design changes, use its `Pending Changes` section as the primary implementation-gap input.
+May be skipped for trivial standalone tasks with no practical planning value.
 
-## Work Hierarchy Fit
+## Inputs And Preconditions
 
-Use this skill when:
-- A `phase` or `workstream` is being implemented.
-- A standalone `task` explicitly requires a written plan.
+1. Read the approved design doc (usually `scratch/designs/<component-or-feature>.md`).
+2. Use `Pending Changes` as primary implementation-gap input when applicable.
+3. If design changes are needed but not approved, stop and route to `brainstorming`.
+4. If design is approved and unchanged for this scope, do not add unnecessary design-update tasks.
 
-Do not require this skill for a truly standalone single-task request with no planning value.
+## Scope Decomposition Check
 
-## Scope Check
+Before tasking, verify scope shape.
 
-If the design doc covers multiple independent subsystems, it should have been broken into separate phase/workstream design docs during brainstorming. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
+If design doc still bundles multiple independent subsystems, split into separate plans (one per subsystem). Each plan must deliver testable value independently.
 
-If this phase/workstream requires design changes but the design doc is not updated and user-approved yet, stop planning and route back to `brainstorming`.
-If the design doc is already approved and unchanged for this phase/workstream, do not add design-doc update tasks for migration reconciliation.
+Do not create one monolithic plan for unrelated subsystems.
 
-## File Structure
+## File Map Discipline
 
-Before defining tasks, map out which files will be created or modified and what each one is responsible for. This is where decomposition decisions get locked in.
+Before writing tasks, define intended file structure:
 
-- Design units with clear boundaries and well-defined interfaces. Each file should have one clear responsibility.
-- You reason best about code you can hold in context at once, and your edits are more reliable when files are focused. Prefer smaller, focused files over large ones that do too much.
-- Files that change together should live together. Split by responsibility, not by technical layer.
-- In existing codebases, follow established patterns. If the codebase uses large files, don't unilaterally restructure - but if a file you're modifying has grown unwieldy, including a split in the plan is reasonable.
+- exact files to create/modify/test
+- responsibilities per file
+- interfaces/boundaries between units
 
-This structure informs the task decomposition. Each task should produce self-contained changes that make sense independently.
+Rules:
 
-Always include the relevant design doc in the plan's file map.
-- If implementation changes migration status, include explicit steps to update `Pending Changes`.
-- If implementation does not change design, mark the design doc as reference-only for this plan.
+- Prefer small, focused files with single clear responsibility.
+- Follow repository conventions and existing patterns.
+- Include the design doc in the file map as `reference-only` or `update Pending Changes`.
 
-## Bite-Sized Task Granularity
-
-**Each step is one action (2-5 minutes):**
-- "Write the failing test" - step
-- "Run it to make sure it fails" - step
-- "Implement the minimal code to make the test pass" - step
-- "Run the tests and make sure they pass" - step
-- "Commit" - step
-
-## Plan Document Header
-
-**Every plan MUST start with this header:**
+## Required Plan Header
 
 ```markdown
 # [Feature Name] Implementation Plan
 
 **Execution Requirement:** Use `executing-plans` to implement this plan.
-
-**Goal:** [One sentence describing what this builds]
-
-**Architecture:** [2-3 sentences about approach]
-
-**Tech Stack:** [Key technologies/libraries]
-
+**Goal:** [one sentence]
+**Architecture:** [2-3 sentences]
+**Tech Stack:** [key tools]
 **Work Level:** [phase | workstream | task]
-
-**Parent Context:** [project branch name or `independent`]
-
-**Design Reference:** [`scratch/designs/<component-or-feature>.md` or equivalent approved design doc path]
-
-**Design Doc Status In This Plan:** [`unchanged` | `updated`]
+**Parent Context:** [project branch | independent]
+**Design Reference:** [approved design doc path]
+**Design Doc Status In This Plan:** [unchanged | updated]
 
 ---
 ```
 
-## Task Structure
+## Required Task Structure
 
-````markdown
-### Task N: [Component Name]
+Every task must include:
 
-**Files:**
-- Create: `exact/path/to/file.py`
-- Modify: `exact/path/to/existing.py:123-145`
-- Test: `tests/exact/path/to/test.py`
-- Design Doc: `scratch/designs/<component-or-feature>.md` (`reference-only` or `update Pending Changes` as items are implemented)
+- exact create/modify/test paths
+- TDD flow: failing test -> minimal implementation -> passing test
+- verification commands with expected outcomes
+- design-doc handling instruction (`reference-only` or `update Pending Changes`)
+- commit step
 
-**Step 1: Write the failing test**
+Keep steps bite-sized (roughly 2-5 minutes each).
 
-```python
-def test_specific_behavior():
-    result = function(input)
-    assert result == expected
-```
+## Verification Discipline In Plans
 
-**Step 2: Run test to verify it fails**
+For behavior-changing tasks, plan steps must explicitly include:
 
-Run: `pytest tests/path/test.py::test_name -v`
-Expected: FAIL with "function not defined"
+1. command to run failing test
+2. expected failure signal
+3. command to run passing test
+4. expected pass signal
+5. broader regression/targeted suite verification when appropriate
 
-**Step 3: Write minimal implementation**
+Do not allow vague statements such as "run tests" without concrete commands.
 
-```python
-def function(input):
-    return expected
-```
+## Commit Guidance
 
-**Step 4: Run test to verify it passes**
-
-Run: `pytest tests/path/test.py::test_name -v`
-Expected: PASS
-
-**Step 5: Commit**
+Plans must include co-author trailer in commit examples:
 
 ```bash
-git add tests/path/test.py src/path/file.py
-git commit -m "feat: add specific feature
+git add <files>
+git commit -m "feat: concise change summary
 
 Co-authored-by: Codex <codex@openai.com>"
 ```
-````
 
-## Remember
-- Exact file paths always
-- Complete code in plan (not "add validation")
-- Exact commands with expected output
-- Reference relevant skills by skill name (for example: `test-driven-development`, `executing-plans`, `verification-before-completion`)
-- DRY, YAGNI, TDD, frequent commits
-- Plan must include explicit steps to reconcile `Pending Changes` with completed implementation work
+Never include ignored files.
 
 ## Plan Review Loop
 
-After drafting the full plan:
+After drafting:
 
-1. Run a structured self-review on the plan and verify all checks below:
-   - Scope coverage: every task maps to the goal and design reference.
-   - Path clarity: create/modify/test paths are concrete and valid for the repository.
-   - Test flow: behavior changes include failing-test -> implementation -> passing-test steps.
-   - Task order: prerequisites come before dependent tasks.
-   - Design-doc alignment:
-     - `updated`: tasks map to `Pending Changes` and include reconciliation steps.
-     - `unchanged`: no design-doc mutation steps are included.
-2. If issues are found:
-   - Fix the issues in the plan
-   - Re-run the self-review
-   - Repeat until the plan passes
-3. When the plan passes, proceed to next-work confirmation.
-4. If the loop exceeds 5 iterations, stop and ask the user for guidance.
+1. Self-review scope coverage, file-path validity, dependency order, test flow, and design-doc alignment.
+2. Verify each task has clear completion evidence.
+3. Fix issues and re-review until clean.
+4. If loop exceeds 5 iterations or major ambiguity remains, ask user for direction.
 
-## Post-Review User Feedback
+Do not hand off an unreviewed plan.
 
-After the plan review loop passes:
+## User Feedback And Closeout
 
-1. Go through unresolved planning open questions one by one with the user.
-2. For each question:
-   - If the user decides, update the plan accordingly.
-   - If no decision is made, keep it explicit in the plan as an open item.
-3. Repeat until all currently known open questions are addressed or explicitly tracked.
+After plan review passes:
 
-## End-of-Boundary Consolidation And Next-Work Confirmation
+1. Walk unresolved planning questions one by one with user.
+2. Apply each user decision as it is made; if no decision is made, keep it explicit as an open item.
+3. Repeat steps 1-2 until all currently known unresolved planning questions are addressed or explicitly tracked.
+4. If user decisions materially change scope/order/verification, re-run the Plan Review Loop before handoff.
+5. Record next work: execute using `executing-plans`.
+6. Run `memory-consolidation`.
+7. Ask for confirmation before starting execution.
 
-After the post-review user feedback step:
+Use this confirmation format:
 
-1. Record next work: execute this plan using `executing-plans`.
-2. Run `memory-consolidation`.
-3. Request user confirmation before starting the recorded next work.
+"Plan complete and saved to `scratch/plans/<filename>.md`. Open questions were reviewed, next work is execution with `executing-plans`, and memory is consolidated. Confirm and I will proceed."
 
-## Next-Work Confirmation
+## Red Flags
 
-After saving the plan:
+Stop and fix if you see:
 
-**"Plan complete and saved to `scratch/plans/<filename>.md`. Open questions have been reviewed, next work is to execute this plan with `executing-plans`, and memory has been consolidated. Confirm and I will proceed."**
+- vague file paths
+- implementation-first steps without failing tests
+- missing verification commands
+- missing design-doc reconciliation behavior
+- handoff without user confirmation

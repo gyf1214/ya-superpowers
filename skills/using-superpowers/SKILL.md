@@ -1,99 +1,70 @@
 ---
 name: using-superpowers
-description: Use when starting any conversation - establishes how to find and use skills before any response, including clarifying questions
+description: Use when starting any conversation to classify work and invoke the correct skills before any response or action.
 ---
 
-<EXTREMELY-IMPORTANT>
-If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST invoke the skill.
+# Using Superpowers
 
-IF A SKILL APPLIES TO YOUR TASK, YOU DO NOT HAVE A CHOICE. YOU MUST USE IT.
+## Non-Negotiable Rule
 
-This is not negotiable. This is not optional. You cannot rationalize your way out of this.
-</EXTREMELY-IMPORTANT>
+Before any response or action, decide whether a skill might apply. If there is even a 1% chance, load the skill first.
+
+Do not do "quick checks" before this. Do not rely on memory of old skill versions. Do not take one implementation step and "come back" to workflow later.
 
 ## Instruction Priority
 
-Superpowers skills override default system prompt behavior, but **user instructions always take precedence**:
+1. User instructions (`AGENTS.md`, direct user requests)
+2. Superpowers skills
+3. Default system behavior
 
-1. **User's explicit instructions** (`AGENTS.md`, direct requests) — highest priority
-2. **Superpowers skills** — override default system behavior where they conflict
-3. **Default system prompt** — lowest priority
-
-If `AGENTS.md` says "don't use TDD" and a skill says "always use TDD," follow the user's instructions. The user is in control.
-
-## How to Access Skills
-
-In Codex environments, load the target `skills/<name>/SKILL.md` and follow it directly. In other environments, use the platform's skill-loading mechanism.
-
-# Using Skills
-
-## Understand the Current Situation
-
-Before classifying:
-1. Use session history + current user request.
-2. If unclear, check `MEMORY.md`, then `git status`.
+If a skill conflicts with explicit user direction, follow the user.
 
 ## Work Hierarchy First
 
-Only for change-causing requests (for read-only requests such as debugging/code review, follow the relevant skill's description).
-
-Workflow: classify -> design -> plan -> execution.
-
-Classify into exactly one:
+For work that may change repository state, classify first:
 
 - `project`
-- `multiple phases` (when already in a project branch)
+- `multiple phases` (inside existing project)
 - `single phase/workstream`
 - `single task`
 
-Use `repository/repo` for workspace terminology.
+Default workflow: classify -> design -> plan -> execute.
 
-Treat hierarchy as session state:
-- Reuse an already established classification when it still fits.
-- If new user input changes scope, reclassify explicitly.
-- If it emerges during discussion, state the inferred class and continue.
-- If unclear and high-risk, ask one concise question; otherwise choose best-fit and proceed.
-- Prefer this precedence: current explicit user statement -> persisted session memory -> current-request inference.
+Use `repository/repo` terminology.
 
-## The Rule
+Treat classification as session state:
 
-**You MUST understand the classification of your work before making any changes. Then follow the intended workflow.**
+- Reuse existing classification when still correct.
+- Reclassify explicitly when scope changes.
+- If scope emerges during discussion, state inferred class and continue.
+- If unclear and high-risk, ask one concise question.
+- Otherwise pick best-fit and proceed.
+- Precedence: explicit user statement -> persisted session memory -> current-request inference.
 
-**Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
+## Skill Ordering
 
-## Red Flags
+When multiple skills apply:
 
-These thoughts mean STOP—you're rationalizing:
-
-| Thought | Reality |
-|---------|---------|
-| "This is just a simple question" | Questions are tasks. Check for skills. |
-| "I need more context first" | Skill check comes BEFORE clarifying questions. |
-| "This doesn't need a formal skill" | If a skill exists, use it. |
-| "I remember this skill" | Skills evolve. Read current version. |
-| "I'll just do this one thing first" | Check BEFORE doing anything. |
-| "The skill is overkill" | Skip discipline now, pay with rework later. Use it. |
-
-## Skill Priority
-
-When multiple skills could apply, use this order:
-
-1. **Process skills first** (classification, brainstorming, debugging) - these determine HOW to approach the task
-2. **Implementation skills second** (for example `test-driven-development`, `verification-before-completion`) - these guide execution quality
-
-"Let's build X as a phase/workstream" → brainstorming first, then writing-plans, then execution.
-"Fix this bug" → debugging first, then domain-specific skills.
-
-## User Instructions
-
-Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
+1. Process skills first (classification, brainstorming, debugging)
+2. Execution-quality skills second (`test-driven-development`, `verification-before-completion`)
 
 ## Routing
 
-- Design -> `brainstorming`
-- Plan -> `writing-plans`
-- Execution -> `executing-plans` (when executing a written plan)
+- Design work -> `brainstorming`
+- Plan creation -> `writing-plans`
+- Plan execution -> `executing-plans`
 - Behavior changes during implementation -> `test-driven-development`
-- Before claiming completion/passing -> `verification-before-completion`
-- If already in the middle of an active workflow, continue it.
-- Read-only examples: bug investigation -> `systematic-debugging`; code review -> `requesting-code-review` or `receiving-code-review`
+- Before completion claims -> `verification-before-completion`
+- Read-only bug investigation -> `systematic-debugging`
+- Code review flows -> `requesting-code-review` or `receiving-code-review`
+
+If already inside an active workflow, continue it unless the user changed scope.
+
+## Red Flags
+
+If you think any of these, stop and load the relevant skill:
+
+- "This is too simple for a skill"
+- "I need to inspect files first"
+- "I remember how this skill works"
+- "I’ll just do one quick step"

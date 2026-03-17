@@ -1,84 +1,121 @@
 ---
 name: executing-plans
-description: Use when executing a written implementation plan
+description: Use when executing a written implementation plan.
 ---
 
 # Executing Plans
 
-## Overview
+Execute the plan exactly, verify continuously, and close the boundary cleanly.
 
-Load plan, review critically, execute all tasks, report when complete.
+Announce at start: "I'm using the executing-plans skill to implement this plan."
 
-**Announce at start:** "I'm using the executing-plans skill to implement this plan."
+This is the default implementation workflow for planned phase/workstream work and planned standalone tasks.
 
-**Note:** In this repository, this is the default implementation execution workflow.
+## Step 1: Load And Review
 
-**Work hierarchy:** This skill executes planned `phase/workstream` work and planned standalone `task` work.
+Before touching code:
 
-## The Process
+1. Read the plan file fully.
+2. Run `git status --short --branch`.
+3. Confirm workspace/branch/worktree matches plan header (`Work Level`, `Parent Context`, scope).
+4. Read referenced canonical design doc.
+5. Read `Design Doc Status In This Plan` (`unchanged` or `updated`).
+6. If `updated`, identify mapped `Pending Changes` items.
+7. If `unchanged`, treat design doc as reference-only.
+8. Critically review for gaps, ambiguity, or sequencing risks.
 
-### Step 1: Load and Review Plan
-1. Read plan file
-2. Run `git status --short --branch` to verify current branch and worktree status
-3. Confirm the current workspace is aligned with the plan header (`Work Level`, `Parent Context`, and intended execution scope)
-4. Read the referenced canonical design doc file (`scratch/designs/<component-or-feature>.md`)
-5. Read `Design Doc Status In This Plan` (`unchanged` or `updated`) from the plan header
-6. If status is `updated`, identify mapped `Pending Changes` items
-7. If status is `unchanged`, treat the design doc as reference-only for this execution run
-8. Review critically - identify any questions or concerns about the plan
-9. If concerns: Raise them with your human partner before starting
-10. If no concerns: Create and maintain a task checklist and proceed
+If critical concerns exist, raise them and pause. Do not start execution while unresolved.
 
-### Step 2: Execute Tasks
+Create and maintain a task checklist before execution begins.
+
+## Step 2: Execute Tasks
 
 For each task:
-1. Mark as in_progress
-2. Follow each step exactly (plan has bite-sized steps)
-3. Run verifications as specified
-4. Mark as completed
 
-If the plan header says `Design Doc Status In This Plan: updated`:
-- As mapped `Pending Changes` items are implemented, update the canonical design doc's `Pending Changes` section
-- Keep only still-unimplemented deltas in that section
+1. Mark task in progress.
+2. Follow task steps exactly (including TDD and verification steps).
+3. Run listed verifications and capture results.
+4. Mark task complete.
 
-### Step 3: Reconcile Execution State
+Do not skip verification steps. Do not silently alter scope.
 
-After all tasks complete and verified:
-- If plan status is `updated`, re-open canonical design doc and confirm `Pending Changes` is reconciled with delivered work
-- If plan status is `unchanged`, confirm no design-doc mutation was performed during execution
+If plan status is `updated`, synchronize canonical design doc `Pending Changes` as mapped work lands.
 
-### Step 4: User Feedback And Consolidation
+## Checkpoint Cadence
 
-- Present execution results and unresolved items to the user, then go through open questions one by one
-- If user feedback requires changes, apply them and re-verify affected work before finishing this step
-- Ask the user what the next work should be, then record that next work
-- Run `memory-consolidation` after user feedback is addressed
+Execution should remain inspectable:
 
-## Post-Execution Next-Work Confirmation
+- After each major task boundary, summarize what changed and what passed.
+- If a task is large, report an internal checkpoint before continuing.
+- Keep reports evidence-first (commands/results) rather than conclusion-first.
 
-After Step 4 is complete (including `memory-consolidation`):
-- Wait for user instruction to start the recorded next work.
-- Common next-work examples:
-  - `finishing-a-project`
-  - code review
-  - begin a new phase/workstream
+If user asks to pause mid-run, stop at the nearest safe checkpoint and report current state.
 
-## When to Stop and Ask for Help
+## Plan Deviation Protocol
 
-**STOP executing immediately when:**
-- Hit a blocker (missing dependency, test fails, instruction unclear)
-- Plan has critical gaps preventing starting
-- You don't understand an instruction
-- Verification fails repeatedly
+If execution pressure suggests changing order/scope:
 
-**Ask for clarification rather than guessing.**
+1. Stop and call out the exact mismatch.
+2. Propose minimal plan delta.
+3. Wait for user approval before deviating.
+4. Re-verify affected assumptions before proceeding.
 
-## Remember
-- Review plan critically first
-- Follow plan steps exactly
-- Don't skip verifications
-- Reference skills when plan says to
-- Respect `Design Doc Status In This Plan`:
-  - `updated`: keep canonical design doc `Pending Changes` synchronized with implementation progress
-  - `unchanged`: keep design doc reference-only
-- Stop when blocked, don't guess
+Do not treat implicit drift as acceptable.
+
+## Step 3: Reconcile Execution State
+
+After all tasks complete:
+
+- `updated`: confirm `Pending Changes` now contains only remaining unimplemented deltas
+- `unchanged`: confirm no design-doc mutation occurred
+
+Re-open affected files and verify this explicitly.
+
+## Step 4: Report, Feedback, Consolidation
+
+1. Report implemented work, verification outcomes, and unresolved items.
+2. Include command-level verification evidence in the report, not only conclusions.
+3. Go through unresolved execution questions with the user one at a time.
+4. Apply each user decision as it is made; if no decision is made, keep it explicit as an open item.
+5. Repeat steps 3-4 until all currently known unresolved execution questions are addressed or explicitly tracked.
+6. Re-verify affected areas after follow-up changes.
+7. Ask user for next work and record it.
+8. Run `memory-consolidation` after feedback/questions are addressed.
+9. Wait for user instruction before starting recorded next work.
+
+## Stop Conditions
+
+Stop immediately and ask for help if:
+
+- plan has critical gaps blocking progress
+- instructions are unclear
+- dependencies are missing
+- verification fails repeatedly
+- actual repository state conflicts with plan assumptions
+
+Never guess through blockers.
+
+## Discipline Rules
+
+- Follow plan order unless user explicitly approves change.
+- Keep branch hygiene visible via `git status` checks when context shifts.
+- Respect design-doc mode (`updated` vs `unchanged`) strictly.
+- Do not claim completion without verification evidence.
+- Do not skip required skills referenced by plan tasks.
+
+## Typical Next Work
+
+After this skill completes and consolidation is done, common next steps are:
+
+- `finishing-a-project`
+- code review workflow
+- next phase/workstream planning/execution
+
+## Red Flags
+
+Stop and correct if you see:
+
+- checking off tasks without running listed verifications
+- editing outside plan scope without user approval
+- treating `updated` design-doc mode as optional
+- reporting "done" before reconciliation and consolidation
