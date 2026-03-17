@@ -28,12 +28,6 @@ For work that may change repository state, classify first:
 - `single phase/workstream`
 - `single task`
 
-Classification to workflow:
-
-- `single task` with design/behavior change -> design -> execute
-- `single task` without design/behavior change -> execute
-- `single phase/workstream` or larger -> design -> plan -> execute
-
 Use `repository/repo` terminology.
 
 For read-only requests (for example investigation, explanation, or review), select skills directly from the request type instead of forcing work-hierarchy classification.
@@ -47,22 +41,41 @@ Treat classification as session state:
 - Otherwise pick best-fit and proceed.
 - Precedence: explicit user statement -> persisted session memory -> current-request inference.
 
-## Skill Ordering
+## General Workflow
 
-When multiple skills apply:
+Apply the core workflow after classification:
 
-1. Process skills first (classification, brainstorming, debugging)
-2. Execution-quality skills second (`test-driven-development`, `verification-before-completion`)
+- `single task` with design/behavior change -> design -> execute
+- `single task` without design/behavior change -> execute
+- `single phase/workstream` or larger -> design -> plan -> execute
 
-## Routing
+## Code Review Workflow
+
+Use code review as a dedicated workflow after or between implementation boundaries:
+
+- Prepare a review package/request -> `requesting-code-review`
+- Intake review feedback and dispatch follow-up work (read-only) -> `receiving-code-review`
+
+For review-driven follow-up work, return to the general workflow above using the approved classification.
+
+## Skill Quick Reference
 
 - Design work -> `brainstorming`
 - Plan creation -> `writing-plans`
 - Plan execution -> `executing-plans`
 - Behavior changes during implementation -> `test-driven-development`
 - Before completion claims -> `verification-before-completion`
+- Prepare code review request -> `requesting-code-review`
+- Intake code review feedback (read-only dispatch) -> `receiving-code-review`
+- Project-level closure on project branch -> `finishing-a-project`
 - Read-only bug investigation -> `systematic-debugging`
-- Code review flows -> `requesting-code-review` or `receiving-code-review`
+
+## Skill Ordering
+
+When multiple skills apply:
+
+1. Process skills first (classification, brainstorming, debugging)
+2. Execution-quality skills second (`test-driven-development`, `verification-before-completion`)
 
 If already inside an active workflow, continue it unless the user changed scope.
 
