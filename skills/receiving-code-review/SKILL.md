@@ -1,47 +1,60 @@
 ---
 name: receiving-code-review
-description: Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation
+description: Use when receiving code review feedback to triage, classify, and propose follow-up work without implementing fixes; requires technical rigor, user gating, and clear queue updates.
 ---
 
-# Code Review Reception
+# Code Review Intake (Read-Only Dispatch)
 
 ## Overview
 
-Code review requires technical evaluation, not emotional performance.
+This skill is a read-only intake and dispatching workflow.
 
-**Core principle:** Verify before implementing. Ask before assuming. Technical correctness over social comfort.
+Do not implement production fixes here. Triage the feedback, classify the resulting work, present it to the user for approval, then close out and wait.
 
-## The Response Pattern
+**Core principle:** Verify before proposing work. Ask before assuming. User approval before queue updates.
 
-```
-WHEN receiving code review feedback:
+## Workflow
 
-1. READ: Complete feedback without reacting
-2. UNDERSTAND: Restate requirement in own words (or ask)
-3. VERIFY: Check against codebase reality
-4. EVALUATE: Technically sound for THIS codebase?
-5. RESPOND: Technical acknowledgment or reasoned pushback
-6. IMPLEMENT: One item at a time, test each
-```
+1. Intake
+   - Read all feedback fully without reacting.
+   - Restate each item as a technical requirement.
+2. Clarity gate
+   - If any item is unclear, stop and ask clarification questions.
+   - Resume only after all items are clear.
+3. Triage verification
+   - Verify each item against codebase reality at triage depth.
+   - Optional: run existing tests or add temporary test cases to confirm behavior.
+4. Classification
+   - Classify follow-up work as `project`, `multiple phases`, `single phase/workstream`, or `single task`.
+5. User review gate
+   - Present suggested work package: name, classification, and source review document.
+   - Explicitly include approve/change/reject/defer options.
+6. Decision handling
+   - If approved or changed: update work queue item and update review document only when scope direction changed.
+   - If rejected: record outcome and do not dispatch.
+   - If deferred: add a revisit item at the end of queue and do not dispatch.
+7. Closeout
+   - Run closeout workflow.
+   - Wait for further user instruction.
 
 ## Forbidden Responses
 
 **NEVER:**
 - "You're absolutely right!" (performative, not technical)
 - "Great point!" / "Excellent feedback!" (performative)
-- "Let me implement that now" (before verification)
+- "Let me implement that now" (this skill is read-only)
 
 **INSTEAD:**
 - Restate the technical requirement
 - Ask clarifying questions
 - Push back with technical reasoning if wrong
-- Just start working (actions > words)
+- Present proposed work and wait for user decision
 
 ## Handling Unclear Feedback
 
 ```
 IF any item is unclear:
-  STOP - do not implement anything yet
+  STOP - do not classify or queue work yet
   ASK for clarification on unclear items
 
 WHY: Items may be related. Partial understanding = wrong implementation.
@@ -58,32 +71,10 @@ You understand 1,2,3,6. Unclear on 4,5.
 
 ## Source-Specific Handling
 
-### From your human partner
-- **Trusted** - implement after understanding
-- **Still ask** if scope unclear
-- **No performative agreement**
-- **Skip to action** or technical acknowledgment
-
-### From External Reviewers
-```
-BEFORE implementing:
-  1. Check: Technically correct for THIS codebase?
-  2. Check: Breaks existing functionality?
-  3. Check: Reason for current implementation?
-  4. Check: Works on all platforms/versions?
-  5. Check: Does reviewer understand full context?
-
-IF suggestion seems wrong:
-  Push back with technical reasoning
-
-IF can't easily verify:
-  Say so: "I can't verify this without [X]. Should I [investigate/ask/proceed]?"
-
-IF conflicts with your human partner's prior decisions:
-  Stop and discuss with your human partner first
-```
-
-**your human partner's rule:** "External feedback - be skeptical, but check carefully"
+Use a simple trust model:
+- From your human partner: treat as trusted intent, still clarify ambiguity.
+- From external reviewers: verify context more deeply before proposing work.
+- For any source: no performative agreement, reason technically, and proceed to the user gate (no direct implementation).
 
 ## YAGNI Check for "Professional" Features
 
@@ -97,121 +88,55 @@ IF reviewer suggests "implementing properly":
 
 **your human partner's rule:** "You and reviewer both report to me. If we don't need this feature, don't add it."
 
-## Implementation Order
+## Optional Validation
 
 ```
-FOR multi-item feedback:
-  1. Clarify anything unclear FIRST
-  2. Classify accepted changes before implementation:
-     - single task + design/behavior change -> run brainstorming, then execute (skip writing-plans)
-     - single task + no design/behavior change -> execute directly
-     - single phase/workstream or larger -> run brainstorming -> writing-plans -> executing-plans
-  3. For direct execution, implement in this order:
-     - Blocking issues (breaks, security)
-     - Simple fixes (typos, imports)
-     - Complex fixes (refactoring, logic)
-  4. Test each fix individually
-  5. Verify no regressions
+AFTER triage verification:
+  - You may run existing tests to validate reported behavior
+  - You may add temporary test cases to confirm behavior
+  - Do not implement production code fixes in this skill
 ```
 
-## When To Push Back
+## Classification And User Gate
 
-Push back when:
-- Suggestion breaks existing functionality
-- Reviewer lacks full context
-- Violates YAGNI (unused feature)
-- Technically incorrect for this stack
-- Legacy/compatibility reasons exist
-- Conflicts with your human partner's architectural decisions
+Classify accepted follow-up work as one of:
+- `project`
+- `multiple phases` (inside an existing project)
+- `single phase/workstream`
+- `single task`
 
-**How to push back:**
-- Use technical reasoning, not defensiveness
-- Ask specific questions
-- Reference working tests/code
-- Involve your human partner if architectural
+At the user review gate, present:
+- proposed work name
+- classification
+- source review document
+- defer/reject options
 
-**Signal if uncomfortable pushing back out loud:** "Strange things are afoot at the Circle K"
+Do not dispatch directly. Wait for user approval or scope edits.
 
-## Acknowledging Correct Feedback
+## Queue Item Format
 
-When feedback IS correct:
-```
-✅ "Fixed. [Brief description of what changed]"
-✅ "Good catch - [specific issue]. Fixed in [location]."
-✅ [Just fix it and show in the code]
+Use concise naming with explicit classification:
 
-❌ "You're absolutely right!"
-❌ "Great point!"
-❌ "Thanks for catching that!"
-❌ "Thanks for [anything]"
-❌ ANY gratitude expression
-```
+`<Classification> xxx <topic> from <review doc>.md`
 
-**Why no thanks:** Actions speak. Just fix it. The code itself shows you heard the feedback.
+Examples:
+- `Phase xxx authentication hardening from review-2026-03-17.md`
+- `Task xxx null-check cleanup from review-2026-03-17.md`
+- Deferred revisit item (end of queue): `Task revisit xxx review from <review doc>.md`
 
-**If you catch yourself about to write "Thanks":** DELETE IT. State the fix instead.
+## After User Decision
 
-## Gracefully Correcting Your Pushback
-
-If you pushed back and were wrong:
-```
-✅ "You were right - I checked [X] and it does [Y]. Implementing now."
-✅ "Verified this and you're correct. My initial understanding was wrong because [reason]. Fixing."
-
-❌ Long apology
-❌ Defending why you pushed back
-❌ Over-explaining
-```
-
-State the correction factually and move on.
+- If approved/changed: update work queue and update review document only when user-directed scope changes require it.
+- If rejected: record outcome and do not dispatch.
+- If deferred: add `Task revisit xxx review from <review doc>.md` at the end of queue, record outcome, and do not dispatch.
+- Run closeout workflow and wait for further instruction.
 
 ## Common Mistakes
 
 | Mistake | Fix |
 |---------|-----|
-| Performative agreement | State requirement or just act |
-| Blind implementation | Verify against codebase first |
-| Batch without testing | One at a time, test each |
-| Assuming reviewer is right | Check if breaks things |
-| Avoiding pushback | Technical correctness > comfort |
-| Partial implementation | Clarify all items first |
-| Can't verify, proceed anyway | State limitation, ask for direction |
-
-## Real Examples
-
-**Performative Agreement (Bad):**
-```
-Reviewer: "Remove legacy code"
-❌ "You're absolutely right! Let me remove that..."
-```
-
-**Technical Verification (Good):**
-```
-Reviewer: "Remove legacy code"
-✅ "Checking... build target is 10.15+, this API needs 13+. Need legacy for backward compat. Current impl has wrong bundle ID - fix it or drop pre-13 support?"
-```
-
-**YAGNI (Good):**
-```
-Reviewer: "Implement proper metrics tracking with database, date filters, CSV export"
-✅ "Grepped codebase - nothing calls this endpoint. Remove it (YAGNI)? Or is there usage I'm missing?"
-```
-
-**Unclear Item (Good):**
-```
-your human partner: "Fix items 1-6"
-You understand 1,2,3,6. Unclear on 4,5.
-✅ "Understand 1,2,3,6. Need clarification on 4 and 5 before implementing."
-```
-
-## GitHub Thread Replies
-
-When replying to inline review comments on GitHub, reply in the comment thread (`gh api repos/{owner}/{repo}/pulls/{pr}/comments/{id}/replies`), not as a top-level PR comment.
-
-## The Bottom Line
-
-**External feedback = suggestions to evaluate, not orders to follow.**
-
-Verify. Question. Then implement.
-
-No performative agreement. Technical rigor always.
+| Implementing during intake | Keep this skill read-only |
+| Partial understanding | Clarify all unclear items first |
+| Blind agreement | Verify and reason technically |
+| Auto-dispatching work | Require explicit user gate |
+| Vague queue naming | Use concise classified format |
