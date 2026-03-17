@@ -98,9 +98,9 @@ Rules:
 
 ## User Review Gate
 
-After self-review passes, ask for doc review before planning:
+After self-review passes, ask for doc review before routing to implementation:
 
-"Design document written to `<path>`. Please review and let me know if you want any changes before implementation planning."
+"Design document written to `<path>`. Please review and let me know if you want any changes before implementation."
 
 If user requests changes, revise and re-run design quality loop.
 
@@ -111,7 +111,7 @@ After the design is approved, apply `Skill Closeout Workflow` in `using-superpow
 Next work routing rules:
 
 - `phase/workstream` -> `writing-plans`
-- `single task` -> use `writing-plans` when planning is needed/requested; otherwise implement directly with `test-driven-development`, then run `verification-before-completion` before any completion claim
+- `single task` -> execute directly with `test-driven-development`, then run `verification-before-completion` before any completion claim (no planning phase unless user explicitly overrides)
 
 In all cases, make the next-work decision explicit before implementation.
 

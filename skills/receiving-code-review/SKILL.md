@@ -102,12 +102,16 @@ IF reviewer suggests "implementing properly":
 ```
 FOR multi-item feedback:
   1. Clarify anything unclear FIRST
-  2. Then implement in this order:
+  2. Classify accepted changes before implementation:
+     - single task + design/behavior change -> run brainstorming, then execute (skip writing-plans)
+     - single task + no design/behavior change -> execute directly
+     - single phase/workstream or larger -> run brainstorming -> writing-plans -> executing-plans
+  3. For direct execution, implement in this order:
      - Blocking issues (breaks, security)
      - Simple fixes (typos, imports)
      - Complex fixes (refactoring, logic)
-  3. Test each fix individually
-  4. Verify no regressions
+  4. Test each fix individually
+  5. Verify no regressions
 ```
 
 ## When To Push Back

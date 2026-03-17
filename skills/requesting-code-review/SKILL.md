@@ -79,6 +79,12 @@ You: [Fix progress indicators]
 - Review after each batch (3 tasks)
 - Get feedback, apply, continue
 
+**When feedback returns:**
+- Run `receiving-code-review` first.
+- Classify accepted changes before implementation.
+- If `single task` changes design/behavior, route to `brainstorming` then execute (no planning phase).
+- If scope is `single phase/workstream` or larger, route to `brainstorming` -> `writing-plans` -> `executing-plans`.
+
 **Ad-Hoc Development:**
 - Review before merge
 - Review when stuck

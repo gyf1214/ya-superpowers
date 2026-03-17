@@ -28,7 +28,11 @@ For work that may change repository state, classify first:
 - `single phase/workstream`
 - `single task`
 
-Default workflow: classify -> design -> plan -> execute.
+Classification to workflow:
+
+- `single task` with design/behavior change -> design -> execute
+- `single task` without design/behavior change -> execute
+- `single phase/workstream` or larger -> design -> plan -> execute
 
 Use `repository/repo` terminology.
 
