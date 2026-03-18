@@ -29,6 +29,10 @@ Use for:
 - Build failures
 - Integration issues
 
+Do not use for:
+- Root cause already known.
+- Small coding mistake during active workflow.
+
 ## Workflow
 
 **Step 1: Define symptom and reproduction**:
