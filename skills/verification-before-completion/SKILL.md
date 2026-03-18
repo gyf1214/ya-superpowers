@@ -28,6 +28,7 @@ Before any completion/correctness claim, run this workflow in order:
    - Write the exact claim you want to make (for example: "tests pass", "task complete", "review triage complete").
 2. Select proof
    - Choose the command/checklist that directly proves that claim.
+   - For behavior-change or bug-fix claims, use `test-driven-development` evidence (`red -> green -> regression`).
 3. Run verification
    - Execute the full verification now (fresh run, no cached/partial result).
 4. Inspect evidence
