@@ -75,16 +75,19 @@ Use this template:
 - Store review at: `scratch/review_requests/YYYY-MM-DD-<topic>-review.md`
 ```
 
-**3. Record next work**
+**3. Sync project index (project-context only)**
+If `Project Context` is not `none`, update the relevant phase entry in `scratch/project-index/<project-slug>.md` with the review request path.
+
+**4. Record next work**
 - Record next work as: `code review on request <request_path>`
 - Example: `code review on request scratch/review_requests/2026-03-17-auth-review-request.md`
 
-**4. Run closeout workflow**
+**5. Run closeout workflow**
 - Apply `Skill Closeout Workflow` from `using-superpowers`.
 - Keep unresolved items explicit.
 - Run `memory-consolidation`.
 
-**5. Announce handoff**
+**6. Announce handoff**
 - Tell the user to start a new session for the review task.
 - Include the request path in that handoff message.
 

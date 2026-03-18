@@ -59,7 +59,7 @@ Rules:
 **Architecture:** [2-3 sentences]
 **Tech Stack:** [key tools]
 **Work Level:** [phase | workstream | task]
-**Parent Context:** [project branch | independent]
+**Project Context:** [scratch/project-index/<project-slug>.md, branch <branch-name> | none]
 **Design Reference:** [approved design doc path]
 **Design Doc Status In This Plan:** [unchanged | updated]
 
@@ -71,12 +71,14 @@ Rules:
 Every task must include:
 
 - exact create/modify/test paths
-- TDD flow: failing test -> minimal implementation -> passing test
+- TDD flow when applicable: failing test -> minimal implementation -> passing test
 - verification commands with expected outcomes
 - design-doc handling instruction (`reference-only` or `update Pending Changes`)
-- commit step
+- commit step when tracked files changed
 
 Keep steps bite-sized (roughly 2-5 minutes each).
+
+For `Project Context` not `none`, include one explicit early execution step to update project index phase status to `in progress`.
 
 ## Verification Discipline In Plans
 
@@ -108,9 +110,10 @@ Never include ignored files.
 After drafting:
 
 1. Self-review scope coverage, file-path validity, dependency order, test flow, and design-doc alignment.
-2. Verify each task has clear completion evidence.
-3. Fix issues and re-review until clean.
-4. If loop exceeds 5 iterations or major ambiguity remains, ask user for direction.
+2. If `Project Context` is not `none`, verify the plan includes the early project-index `in progress` sync step.
+3. Verify each task has clear completion evidence.
+4. Fix issues and re-review until clean.
+5. If loop exceeds 5 iterations or major ambiguity remains, ask user for direction.
 
 Do not hand off an unreviewed plan.
 
@@ -119,8 +122,9 @@ Do not hand off an unreviewed plan.
 After plan review passes:
 
 1. Handle planning-specific deltas first: if user decisions materially change scope/order/verification, re-run the Plan Review Loop before handoff.
-2. Then run the canonical `Skill Closeout Workflow` from `using-superpowers`.
-3. Record next work as plan execution with `executing-plans`.
+2. If `Project Context` is not `none`, update the relevant project index phase entry: set status to `planned` and set the `plan doc` link.
+3. Then run the canonical `Skill Closeout Workflow` from `using-superpowers`.
+4. Record next work as plan execution with `executing-plans`.
 
 Use this confirmation format:
 

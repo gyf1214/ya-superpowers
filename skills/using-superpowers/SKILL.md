@@ -7,9 +7,7 @@ description: Use when starting any conversation to classify work and invoke the 
 
 ## Non-Negotiable Rule
 
-Before any response or action, decide whether a skill might apply. If there is even a 1% chance, load the skill first.
-
-No quick checks first, no relying on stale memory, and no "one step now, workflow later."
+Before any response or action, decide whether a skill might apply. If there is even a 1% chance, load it.
 
 ## Instruction Priority
 
@@ -28,9 +26,9 @@ For ANY work that may change repository state, classify first:
 - `single phase/workstream`
 - `single task`
 
-Use `repository` to refer to the workspace to avoid conflict with `project`.
+Use `repository` to refer to the workspace.
 
-For read-only requests (investigation, explanation, review), select skills directly from request type.
+For read-only requests, select skills directly from request type.
 
 Treat classification as session state:
 
@@ -39,9 +37,12 @@ Treat classification as session state:
 
 ## General Workflow
 
+- new `project` work -> `starting-a-project` -> design -> plan -> execute
 - `single task` with design/behavior change -> design -> execute
 - `single task` without design/behavior change -> execute
 - `single phase/workstream` or larger -> design -> plan -> execute
+
+For project-context work, keep `scratch/project-index/<project-slug>.md` synchronized at phase boundaries.
 
 ## Code Review Workflow
 
@@ -50,10 +51,11 @@ Use code review after or between implementation boundaries:
 - Prepare a review package/request -> `requesting-code-review`
 - Intake review feedback and dispatch follow-up work (read-only) -> `receiving-code-review`
 
-For review-driven follow-up, return to the general workflow using the approved classification.
+For review-driven follow-up, return to general workflow using approved classification.
 
 ## Skill Quick Reference
 
+- Start new project branch/index -> `starting-a-project`
 - Design work -> `brainstorming`
 - Plan creation -> `writing-plans`
 - Plan execution -> `executing-plans`

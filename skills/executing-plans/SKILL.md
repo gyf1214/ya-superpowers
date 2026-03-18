@@ -17,12 +17,13 @@ Before touching code:
 
 1. Read the plan file fully.
 2. Run `git status --short --branch`.
-3. Confirm workspace/branch/worktree matches plan header (`Work Level`, `Parent Context`, scope).
+3. Confirm workspace/branch/worktree matches plan header (`Work Level`, `Project Context`, scope).
 4. Read referenced canonical design doc.
 5. Read `Design Doc Status In This Plan` (`unchanged` or `updated`).
-6. If `updated`, identify mapped `Pending Changes` items.
-7. If `unchanged`, treat design doc as reference-only.
-8. Critically review for gaps, ambiguity, or sequencing risks.
+6. If `Project Context` is not `none`, read the referenced `scratch/project-index/<project-slug>.md` and identify the phase entry for this plan.
+7. If `updated`, identify mapped `Pending Changes` items.
+8. If `unchanged`, treat design doc as reference-only.
+9. Critically review for gaps, ambiguity, or sequencing risks.
 
 If critical concerns exist, raise them and pause. Do not start execution while unresolved.
 
@@ -40,6 +41,7 @@ For each task:
 Do not skip verification steps. Do not silently alter scope.
 
 If plan status is `updated`, synchronize canonical design doc `Pending Changes` as mapped work lands.
+If project-context, keep project index phase status current (`planned -> in progress -> done` or `blocked`) as execution state changes.
 
 ## Checkpoint Cadence
 
@@ -70,6 +72,7 @@ After all tasks complete:
 - `unchanged`: confirm no design-doc mutation occurred
 
 Re-open affected files and verify this explicitly.
+If project-context, verify project index phase status and links match delivered design/plan/review artifacts.
 
 ## Step 4: Report, Feedback, Consolidation
 
@@ -95,6 +98,7 @@ Never guess through blockers.
 - Follow plan order unless user explicitly approves change.
 - Keep branch hygiene visible via `git status` checks when context shifts.
 - Respect design-doc mode (`updated` vs `unchanged`) strictly.
+- Keep project index phase status synchronized for project-context execution.
 - Do not claim completion without verification evidence.
 - Do not skip required skills referenced by plan tasks.
 

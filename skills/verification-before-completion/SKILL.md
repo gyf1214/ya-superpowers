@@ -29,6 +29,7 @@ Before any completion/correctness claim, run this workflow in order:
 2. Select proof
    - Choose the command/checklist that directly proves that claim.
    - For behavior-change or bug-fix claims, use `test-driven-development` evidence (`red -> green -> regression`).
+   - For project/phase completion claims, include project index proof (phase checkbox/status and relevant section consistency).
 3. Run verification
    - Execute the full verification now (fresh run, no cached/partial result).
 4. Inspect evidence
@@ -49,6 +50,7 @@ Skip any step = unverified claim.
 | Bug fixed | Test original symptom: passes | Code changed, assumed fixed |
 | Regression test works | Red-green cycle verified | Test passes once |
 | Requirements met | Line-by-line checklist | Tests passing |
+| Phase complete (project context) | Project index phase entry shows `[x]` and `done` | Verbal claim only |
 
 ## Red Flags - STOP
 
@@ -107,6 +109,7 @@ Treat this as a completion gate across design, planning, execution, and review w
 - Closing a design boundary ("design ready/approved")
 - Closing a planning boundary ("plan ready for execution")
 - Closing a review boundary ("triage verified/complete")
+- Declaring project closure readiness based on project index state
 
 **Rule applies to:**
 - Exact phrases and paraphrases
