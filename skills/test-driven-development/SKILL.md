@@ -13,7 +13,8 @@ Write the test first. Watch it fail. Write minimal code to pass.
 
 ## When to Use
 
-Strict TDD applies to ANY testable + behavioral changes.
+Strict TDD applies to testable behavioral changes.
+Always use Strict TDD for testable bug fixes.
 
 - Non-behavioral code changes (refactor/renaming): Constrained Workflow.
 - Non-testable code: Constrained Workflow REQUIRES special instruction or user approval.
@@ -24,18 +25,15 @@ Strict TDD applies to ANY testable + behavioral changes.
 - Test infrastructure exists -> strict TDD required.
 - Code requires heavy integration -> check for special instruction; ask user if not clear.
 - No test infrastructure -> ask user.
+- Don't know how to write the test -> ask user before implementation.
 
 ## The Iron Law
 
 ```
-NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST
+NO RUNTIME CODE WITHOUT A FAILING TEST FIRST
 ```
 
-If code is written before a failing test, discard that implementation and restart with TDD.
-
-Do not keep pre-test implementation code as reference or adapt it while writing tests.
-
-Implement fresh from tests. Period.
+If runtime code is written before a failing test, discard it and restart the cycle.
 
 ## Red-Green-Refactor
 
@@ -43,25 +41,22 @@ Implement fresh from tests. Period.
 
 Write one minimal test for one behavior with a clear name.
 
-**Requirements:**
+Criteria:
 - One behavior
 - Clear name
 - Real code (no mocks unless unavoidable)
 
 ### Verify RED - Watch It Fail
 
-Required.
-
 Run the smallest relevant automated test command for the behavior under change.
 
-Confirm:
-- Test fails (not errors)
+Expected:
+- Test fails
 - Failure message is expected
-- Fails because feature missing (not typos)
+- Failure is for missing behavior (not typos/setup)
 
-**Test passes?** You're testing existing behavior. Fix test.
-
-**Test errors?** Fix error, re-run until it fails correctly.
+If test passes, tighten the test.
+If test fails for unexpected reasons, fix setup and re-run RED.
 
 ### GREEN - Minimal Code
 
@@ -71,18 +66,15 @@ Don't add features, refactor other code, or "improve" beyond the test.
 
 ### Verify GREEN - Watch It Pass
 
-Required.
-
 Re-run the same targeted test command, then run the broader suite needed to confirm no regressions.
 
-Confirm:
+Expected:
 - Test passes
 - Other tests still pass
-- Output pristine (no errors, warnings)
+- Output is clean (no errors/warnings)
 
-**Test fails?** Fix code, not test.
-
-**Other tests fail?** Fix now.
+If target test fails, fix runtime code.
+If regression tests fail, fix before continuing.
 
 ### REFACTOR - Clean Up
 
@@ -95,7 +87,7 @@ Keep tests green. Don't add behavior.
 
 ### Repeat
 
-Next failing test for next feature.
+Start the next behavior with a new RED test.
 
 ## Constrained Workflow
 
@@ -105,17 +97,31 @@ Use only when routed from `When to Use`:
 3. Build + relevant unit tests + integration checks as applicable.
 4. Read code and verify outcome matches goal.
 
-## Good Tests
+## Test Criteria
 
-| Quality | Good | Bad |
-|---------|------|-----|
-| **Minimal** | One thing. "and" in name? Split it. | `test('validates email and domain and whitespace')` |
-| **Clear** | Name describes behavior | `test('test1')` |
-| **Shows intent** | Demonstrates desired API | Obscures what code should do |
+**Clear:**
+- good: `test('rejects empty email')`
+- bad: `test('test1')`
+
+**Minimal:**
+- good: one behavior per test name/assertion
+- bad: `test('validates email and domain and whitespace')`
+
+**Shows Intent:**
+- good: test demonstrates expected API behavior
+- bad: test obscures what runtime code should do
+
+**Isolated:**
+- good: touch only the target component, wire fixtures
+- bad: wire everything in unit test
+
+**AVOID anti-patterns:**
+- over-mocking that hides the runtime code of target component
+- introducing unnecessary test-only methods to runtime code
+- asserting internal state rather than observable behavior
+- locking internal signature or structure
 
 ## Rationalization Traps
-
-When any red flag appears, reset and apply strict TDD.
 
 **Red Flags**
 - Code before test
@@ -125,32 +131,20 @@ When any red flag appears, reset and apply strict TDD.
 - Rationalizing "just this once"
 - Treating Constrained Workflow as optional shortcut
 
-If any red flag appears, follow routing in `When to Use` (strict TDD by default).
+If any red-flag appears, stop and restart TDD.
 
 ## Example: Bug Fix
 
 **Bug:** Empty email accepted
 
 **RED**
-```typescript
-test('rejects empty email', async () => {
-  const result = await submitForm({ email: '' });
-  expect(result.error).toBe('Email required');
-});
-```
+Add a test that submits an empty email and expects an `Email required` error.
 
 **Verify RED**
 Run focused test command -> expected failure for missing validation.
 
 **GREEN**
-```typescript
-function submitForm(data: FormData) {
-  if (!data.email?.trim()) {
-    return { error: 'Email required' };
-  }
-  // ...
-}
-```
+Add minimal runtime validation that rejects empty/blank emails with `Email required`.
 
 **Verify GREEN**
 Re-run focused test command -> pass, then run broader regression suite.
@@ -164,49 +158,23 @@ Choose checklist by mode selected in `When to Use`; do not mix modes.
 
 ### Strict TDD
 
-Before marking work complete:
-- [ ] Failing test written before production code
-- [ ] RED failure observed for expected reason (missing behavior, not typo/setup error)
-- [ ] Minimal code change made to satisfy the failing test
-- [ ] GREEN pass observed on the targeted test
+Before completion:
+- [ ] Test written before runtime code
+- [ ] RED observed for missing behavior
+- [ ] Minimal runtime change made
+- [ ] GREEN observed on targeted test
 - [ ] Relevant regression suite passed
-- [ ] Tests avoid non-behavioral shape/signature assertions unless public API contract requires them
+- [ ] Test avoids anti-patterns
 
 If any item is unchecked, strict TDD is incomplete; restart the cycle.
 
 ### Constrained Verification Checklist
 
-Before marking work complete:
-- [ ] Constraint source is explicit (repository instruction/notes or direct user instruction)
+Before completion:
+- [ ] Constraint source is explicit
 - [ ] Pre-change assumptions verified
-- [ ] Code change completed
-- [ ] Build + relevant unit tests + integration checks passed
-- [ ] Post-change outcome verified against goal
+- [ ] Runtime change completed
+- [ ] Build + relevant checks passed
+- [ ] Outcome verified against goal
 
 If any item is unchecked, constrained verification is incomplete.
-
-## When Stuck
-
-| Problem | Solution |
-|---------|----------|
-| Don't know how to test | Write wished-for API. Write assertion first. Ask your human partner. |
-| Test too complicated | Design too complicated. Simplify interface. |
-| Must mock everything | Code too coupled. Use dependency injection. |
-| Test setup huge | Extract helpers. Still complex? Simplify design. |
-
-## Debugging Integration
-
-Bug found? Write failing test reproducing it. Follow TDD cycle. Test proves fix and prevents regression.
-
-Never fix bugs without a test.
-
-## Testing Anti-Patterns
-
-When adding mocks or test utilities, avoid:
-- Testing mock behavior instead of real behavior
-- Adding test-only methods to production classes
-- Mocking without understanding dependencies
-- For refactors, asserting implementation shape instead of behavior
-- Writing tests that lock internal signatures/structure unless public API compatibility is the required behavior
-
-Exceptions require explicit user permission.
