@@ -51,64 +51,9 @@ Implement fresh from tests. Period.
 
 ## Red-Green-Refactor
 
-```dot
-digraph tdd_cycle {
-    rankdir=LR;
-    red [label="RED\nWrite failing test", shape=box, style=filled, fillcolor="#ffcccc"];
-    verify_red [label="Verify fails\ncorrectly", shape=diamond];
-    green [label="GREEN\nMinimal code", shape=box, style=filled, fillcolor="#ccffcc"];
-    verify_green [label="Verify passes\nAll green", shape=diamond];
-    refactor [label="REFACTOR\nClean up", shape=box, style=filled, fillcolor="#ccccff"];
-    next [label="Next", shape=ellipse];
-
-    red -> verify_red;
-    verify_red -> green [label="yes"];
-    verify_red -> red [label="wrong\nfailure"];
-    green -> verify_green;
-    verify_green -> refactor [label="yes"];
-    verify_green -> green [label="no"];
-    refactor -> verify_green [label="stay\ngreen"];
-    verify_green -> next;
-    next -> red;
-}
-```
-
 ### RED - Write Failing Test
 
-Write one minimal test showing what should happen.
-
-<Good>
-```typescript
-test('retries failed operations 3 times', async () => {
-  let attempts = 0;
-  const operation = () => {
-    attempts++;
-    if (attempts < 3) throw new Error('fail');
-    return 'success';
-  };
-
-  const result = await retryOperation(operation);
-
-  expect(result).toBe('success');
-  expect(attempts).toBe(3);
-});
-```
-Clear name, tests real behavior, one thing
-</Good>
-
-<Bad>
-```typescript
-test('retry works', async () => {
-  const mock = jest.fn()
-    .mockRejectedValueOnce(new Error())
-    .mockRejectedValueOnce(new Error())
-    .mockResolvedValueOnce('success');
-  await retryOperation(mock);
-  expect(mock).toHaveBeenCalledTimes(3);
-});
-```
-Vague name, tests mock not code
-</Bad>
+Write one minimal test for one behavior with a clear name.
 
 **Requirements:**
 - One behavior
@@ -119,9 +64,7 @@ Vague name, tests mock not code
 
 **MANDATORY. Never skip.**
 
-```bash
-npm test path/to/test.test.ts
-```
+Run the smallest relevant automated test command for the behavior under change.
 
 Confirm:
 - Test fails (not errors)
@@ -134,39 +77,7 @@ Confirm:
 
 ### GREEN - Minimal Code
 
-Write simplest code to pass the test.
-
-<Good>
-```typescript
-async function retryOperation<T>(fn: () => Promise<T>): Promise<T> {
-  for (let i = 0; i < 3; i++) {
-    try {
-      return await fn();
-    } catch (e) {
-      if (i === 2) throw e;
-    }
-  }
-  throw new Error('unreachable');
-}
-```
-Just enough to pass
-</Good>
-
-<Bad>
-```typescript
-async function retryOperation<T>(
-  fn: () => Promise<T>,
-  options?: {
-    maxRetries?: number;
-    backoff?: 'linear' | 'exponential';
-    onRetry?: (attempt: number) => void;
-  }
-): Promise<T> {
-  // YAGNI
-}
-```
-Over-engineered
-</Bad>
+Write the simplest code that makes the failing test pass.
 
 Don't add features, refactor other code, or "improve" beyond the test.
 
@@ -174,9 +85,7 @@ Don't add features, refactor other code, or "improve" beyond the test.
 
 **MANDATORY.**
 
-```bash
-npm test path/to/test.test.ts
-```
+Re-run the same targeted test command, then run the broader suite needed to confirm no regressions.
 
 Confirm:
 - Test passes
@@ -208,16 +117,9 @@ Next failing test for next feature.
 | **Clear** | Name describes behavior | `test('test1')` |
 | **Shows intent** | Demonstrates desired API | Obscures what code should do |
 
-## Why Order Matters
+## Rationalization Traps
 
-The sequence matters because TDD proves the test can catch missing behavior before implementation exists.
-
-- Tests written after code often pass immediately, which does not prove they validate the requirement.
-- Manual testing is ad-hoc and non-repeatable; it does not provide regression protection.
-- "Already spent hours" is sunk-cost pressure; keeping unverified code increases future debugging cost.
-- Tests-first answers "What should this do?" while tests-after tends to validate "What did I build?"
-
-## Common Rationalizations
+Order matters because TDD proves tests can detect missing behavior before implementation exists. Tests-after usually validate what was built, not what was required.
 
 | Excuse | Reality |
 |--------|---------|
@@ -233,8 +135,7 @@ The sequence matters because TDD proves the test can catch missing behavior befo
 | "Manual test faster" | Manual doesn't prove edge cases. You'll re-test every change. |
 | "Existing code has no tests" | You're improving it. Add tests for existing code. |
 
-## Red Flags - STOP and Start Over
-
+**Red Flags**
 - Code before test
 - Test after implementation
 - Test passes immediately
@@ -249,7 +150,7 @@ The sequence matters because TDD proves the test can catch missing behavior befo
 - "TDD is dogmatic, I'm being pragmatic"
 - "This is different because..."
 
-**All of these mean: Delete code. Start over with TDD.**
+All of these mean: delete code and restart with TDD.
 
 ## Example: Bug Fix
 
@@ -264,10 +165,7 @@ test('rejects empty email', async () => {
 ```
 
 **Verify RED**
-```bash
-$ npm test
-FAIL: expected 'Email required', got undefined
-```
+Run focused test command -> expected failure for missing validation.
 
 **GREEN**
 ```typescript
@@ -280,10 +178,7 @@ function submitForm(data: FormData) {
 ```
 
 **Verify GREEN**
-```bash
-$ npm test
-PASS
-```
+Re-run focused test command -> pass, then run broader regression suite.
 
 **REFACTOR**
 Extract validation for multiple fields if needed.
