@@ -15,21 +15,26 @@ Write the test first. Watch it fail. Write minimal code to pass.
 
 ## When to Use
 
-**Always:**
-- New features
-- Bug fixes
-- Refactoring
-- Behavior changes
+High-level rule:
+- If a code change is behavioral and unit-testable, TDD is required.
+- If there is even a single behavioral change, use strict Red-Green-Refactor.
+- Use Constrained Workflow only when strict TDD is blocked and that constraint is explicitly authorized by repository instruction/notes or direct user instruction, or when refactor scope is non-behavioral.
 
-**Hierarchy mapping:**
-- `phase/workstream` tasks with behavior changes: required unless user overrides
-- Standalone behavioral task: strongly preferred default
-- Non-behavioral tasks (docs/chore/mechanical rename): usually not required
+**Required examples + work mapping:**
+- New features: required.
+- Bug fixes: required.
+- Refactors with any behavior/API-contract change: required.
+- `phase/workstream` tasks with behavioral changes: required unless user explicitly overrides.
+- Standalone behavioral task: required by default.
+- Non-behavioral code tasks (mechanical rename/non-behavioral refactor): use Constrained Workflow.
+- Non-code changes (docs/chore): not required.
 
-**Exceptions (ask your human partner):**
-- Throwaway prototypes
-- Generated code
-- Configuration files
+### Identify Test Infrastructure
+
+Before coding, determine which path applies:
+- Repository has usable test infrastructure and target area is unit-testable: strict TDD required.
+- Target area is integration-dependent or not unit-testable: require explicit repository instruction/notes or direct user instruction before using Constrained Workflow; ask user if instruction is missing/unclear.
+- Repository has no test infrastructure: require direct user instruction before using Constrained Workflow.
 
 Thinking "skip TDD just this once"? Stop. That's rationalization.
 
@@ -109,6 +114,14 @@ Keep tests green. Don't add behavior.
 
 Next failing test for next feature.
 
+## Constrained Workflow
+
+Use only when routed from `When to Use`:
+1. Read code and verify pre-change assumptions.
+2. Code change.
+3. Build + relevant unit tests + integration checks as applicable.
+4. Read code and verify outcome matches goal.
+
 ## Good Tests
 
 | Quality | Good | Bad |
@@ -119,7 +132,7 @@ Next failing test for next feature.
 
 ## Rationalization Traps
 
-Order matters because TDD proves tests can detect missing behavior before implementation exists. Tests-after usually validate what was built, not what was required.
+Order matters because strict TDD proves tests can detect missing behavior before implementation exists. Tests-after usually validate what was built, not what was required.
 
 | Excuse | Reality |
 |--------|---------|
@@ -133,7 +146,10 @@ Order matters because TDD proves tests can detect missing behavior before implem
 | "Test hard = design unclear" | Listen to test. Hard to test = hard to use. |
 | "TDD will slow me down" | TDD faster than debugging. Pragmatic = test-first. |
 | "Manual test faster" | Manual doesn't prove edge cases. You'll re-test every change. |
-| "Existing code has no tests" | You're improving it. Add tests for existing code. |
+| "This is integration-only, so TDD never applies" | If behavior is unit-testable, strict TDD is required. Integration-only paths require explicit repo/user instruction to use Constrained Workflow. |
+| "No test infrastructure means skip verification" | No. Lack of infra is not self-justification; require user instruction, then run Constrained Workflow with build + relevant checks. |
+| "I can infer an infrastructure exception from context" | No. Test-infra constraints must be explicit in repo notes/instructions or confirmed by user. |
+| "Refactor means test signatures/implementation shape" | Refactor checks focus on observable behavior (or public API contract), not internal structure. |
 
 **Red Flags**
 - Code before test
@@ -150,7 +166,8 @@ Order matters because TDD proves tests can detect missing behavior before implem
 - "TDD is dogmatic, I'm being pragmatic"
 - "This is different because..."
 
-All of these mean: delete code and restart with TDD.
+If strict TDD is required, these mean: delete code and restart with TDD.
+If strict TDD is blocked by routing in `When to Use`, run Constrained Workflow instead of skipping verification.
 
 ## Example: Bug Fix
 
@@ -185,18 +202,30 @@ Extract validation for multiple fields if needed.
 
 ## Verification Checklist
 
+Choose checklist by mode selected in `When to Use`; do not mix modes.
+
+### Strict TDD
+
 Before marking work complete:
+- [ ] Failing test written before production code
+- [ ] RED failure observed for expected reason (missing behavior, not typo/setup error)
+- [ ] Minimal code change made to satisfy the failing test
+- [ ] GREEN pass observed on the targeted test
+- [ ] Relevant regression suite passed
+- [ ] Tests avoid non-behavioral shape/signature assertions unless public API contract requires them
 
-- [ ] Every new function/method has a test
-- [ ] Watched each test fail before implementing
-- [ ] Each test failed for expected reason (feature missing, not typo)
-- [ ] Wrote minimal code to pass each test
-- [ ] All tests pass
-- [ ] Output pristine (no errors, warnings)
-- [ ] Tests use real code (mocks only if unavoidable)
-- [ ] Edge cases and errors covered
+Can't check all boxes? You skipped strict TDD. Start over.
 
-Can't check all boxes? You skipped TDD. Start over.
+### Constrained Workflow
+
+Before marking work complete:
+- [ ] Constraint source is explicit (repository instruction/notes or direct user instruction)
+- [ ] Pre-change assumptions verified
+- [ ] Code change completed
+- [ ] Build + relevant unit tests + integration checks passed
+- [ ] Post-change outcome verified against goal
+
+Can't check all boxes? Constrained verification is incomplete.
 
 ## When Stuck
 
@@ -219,6 +248,8 @@ When adding mocks or test utilities, avoid these common pitfalls:
 - Testing mock behavior instead of real behavior
 - Adding test-only methods to production classes
 - Mocking without understanding dependencies
+- For refactors, asserting implementation shape instead of behavior (reflection checks, static assertions on private types, or "old method no longer exists" checks)
+- Writing tests that lock internal signatures/structure unless public API compatibility is the required behavior
 
 ## Final Rule
 
