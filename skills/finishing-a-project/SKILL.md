@@ -1,6 +1,6 @@
 ---
 name: finishing-a-project
-description: Use when a project branch is being closed and you need final verification plus a project-closing document
+description: Use when a project branch is being closed and you need final verification plus closure notes captured in the project index.
 ---
 
 # Finishing a Project
@@ -9,7 +9,7 @@ description: Use when a project branch is being closed and you need final verifi
 
 Close implementation work with evidence and a clear handoff.
 
-**Core principle:** Verify baseline state -> write project-closing document.
+**Core principle:** Validate project index -> verify baseline state -> write closure handoff in project index.
 
 **Scope:** This skill closes `project`-level work (dedicated branch). For independent workstreams/tasks, use verification-before-completion unless the user asks for a closure note.
 
@@ -17,7 +17,22 @@ Close implementation work with evidence and a clear handoff.
 
 ## The Process
 
-### Step 1: Verify baseline (tests + git status)
+### Step 1: Validate project index closure
+
+Read the project index:
+
+`scratch/project-index/<project-slug>.md`
+
+Before closing, confirm all of the following:
+
+- every phase checkbox is complete (`[x]`)
+- every phase status is `done`
+- no unresolved gap against `Purpose`
+- no unresolved gap against `Success Criteria`
+
+If any gap remains, stop and report blockers before closing.
+
+### Step 2: Verify baseline (tests + git status)
 
 Run project tests and capture exact result:
 
@@ -31,67 +46,45 @@ Then verify repository state:
 git status --short --branch
 ```
 
-Record in the closing doc:
+Record for closure handoff:
 - test command used + pass/fail result
 - current branch
 - whether working tree is clean or has pending changes
 
 If tests fail, stop and report blockers before closing.
 
-### Step 2: Write project-closing document
+### Step 3: Write closure handoff in the project index
 
-Create `scratch/notes/YYYY-MM-DD-<topic>-closure.md` with these sections:
+Update `## Handoff Note` inside:
 
-1. `Summary`
-- what was completed in this project cycle
+`scratch/project-index/<project-slug>.md`
 
-2. `Verification`
-- test command(s) and outcomes
-- git status summary from Step 1
-
-3. `Follow-ups`
-- concrete next tasks needed for continuation
-- unresolved risks/debt/issues
-
-4. `Future Directions`
-- 2-4 plausible directions for next iteration
-- brief trade-off notes for each direction
-
-5. `Handoff Notes`
-- what the user should decide next (merge/push/release timing, if applicable)
+Keep this section short (no extra subsections). Include:
+closure summary, verification summary, follow-ups, and user decisions.
 
 ## Example structure
 
 ```markdown
-# <Topic> Project Closure
-
-## Summary
-- ...
-
-## Verification
-- Tests: `pytest` -> 42 passed, 0 failed
-- Git status: `## feature/x...` + clean working tree
-
-## Follow-ups
-- [ ] ...
-
-## Future Directions
-- Direction A: ...
-- Direction B: ...
-
-## Handoff Notes
-- User-managed actions: merge/push/release.
+## Handoff Note
+- Closure: <1-3 line summary of completed project scope>
+- Verification: project index closure checks passed; tests `<cmd>` -> <result>; git status -> <summary>
+- Follow-ups: <none or concise list>
+- User decisions: <none or concise list>
 ```
 
 ## Common Mistakes
 
 **Closing without evidence**
 - Problem: completion claims are not verifiable
-- Fix: include exact test command + git status snapshot
+- Fix: include index validation result, exact test command, and git status snapshot in project index handoff
 
-**No actionable follow-ups**
-- Problem: next cycle loses momentum
-- Fix: list concrete tasks and risks, not vague ideas
+**Closing with unresolved phase or goal gaps**
+- Problem: project close does not match declared scope/purpose
+- Fix: stop closure, list blockers, and resolve or explicitly defer before closing
+
+**Verbose closure notes**
+- Problem: handoff becomes hard to scan and maintain
+- Fix: keep handoff notes short and evidence-focused
 
 **Mixing remote git operations into closure**
 - Problem: conflicts with user-managed integration workflow
@@ -101,18 +94,12 @@ Create `scratch/notes/YYYY-MM-DD-<topic>-closure.md` with these sections:
 
 **Never:**
 - Claim closure without running tests in this session
+- Claim closure without validating the project index
 - Skip git status in closure baseline
-- Omit follow-ups/future directions
+- Skip updating `## Handoff Note` in the project index
 
 **Always:**
 - Provide evidence-first verification
-- Write a closure doc with explicit next steps
+- Validate all phase and goal closure conditions in the project index
+- Write concise closure handoff notes directly in the project index
 - Leave merge/push/remote operations to explicit user instruction
-
-## Integration
-
-**Called by:**
-- **executing-plans** - After all tasks complete
-
-**Pairs with:**
-- **verification-before-completion** - Ensure claims are backed by fresh command output

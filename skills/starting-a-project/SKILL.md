@@ -72,10 +72,8 @@ Use this template:
   - plan doc: <path>
   - review doc: <path>
 
-## Optional Handoff Note
-- Next operator:
-- Suggested next action:
-- Constraints/timing:
+## Handoff Note
+- This section will be created during closing.
 ```
 
 ## Step 4: Verify Hygiene
