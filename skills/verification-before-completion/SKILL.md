@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: Use when about to claim work is complete, fixed, or passing, before committing changes, or before closing a workflow boundary - requires fresh verification evidence before any success claim
+description: Use when about to claim work is complete, fixed, or passing, or before commit or workflow-boundary close where correctness must be verified.
 ---
 
 # Verification Before Completion

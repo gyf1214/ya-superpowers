@@ -1,6 +1,6 @@
 ---
 name: receiving-code-review
-description: Use when receiving code review feedback to triage, classify, and propose follow-up work without implementing fixes; requires technical rigor, user gating, and clear queue updates.
+description: Use when code review feedback arrives, before any implementation starts.
 ---
 
 # Code Review Intake (Read-Only Dispatch)
