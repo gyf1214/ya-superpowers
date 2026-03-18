@@ -22,7 +22,7 @@ Do not implement production fixes here. Triage the feedback, classify the result
    - If any item is unclear, stop and ask clarification questions.
    - Resume only after all items are clear.
 3. Triage verification
-   - Verify each item against codebase reality at triage depth.
+   - Verify each item against repository reality at triage depth.
    - Optional: run existing tests or add temporary test cases to confirm behavior.
 4. Classification
    - Classify follow-up work as `project`, `multiple phases`, `single phase/workstream`, or `single task`.
@@ -81,7 +81,7 @@ Use a simple trust model:
 
 ```
 IF reviewer suggests "implementing properly":
-  grep codebase for actual usage
+  grep repository for actual usage
 
   IF unused: "This endpoint isn't called. Remove it (YAGNI)?"
   IF used: Then implement properly

@@ -7,7 +7,7 @@
 
 ## Working Notes
 - Follow skills from this repository and keep instructions concise and actionable.
-- Use repository terminology for the workspace (`repository`/`repo`, not `project`).
+- Use `repository` to refer to the workspace (not `project`).
 - Work hierarchy terminology:
   - classify change-causing requests as one of: `project`, `multiple phases` (if already in a project), `single phase/workstream`, `single task`
   - for read-only requests, select skills directly from request type (no forced work-hierarchy classification)

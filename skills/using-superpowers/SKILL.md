@@ -19,16 +19,18 @@ No quick checks first, no relying on stale memory, and no "one step now, workflo
 
 If a skill conflicts with explicit user direction, follow the user.
 
-## Work Hierarchy First
+## Work Classification First
 
-For work that may change repository state, classify first:
+For ANY work that may change repository state, classify first:
 
 - `project`
 - `multiple phases` (inside existing project)
 - `single phase/workstream`
 - `single task`
 
-Use `repository/repo` terminology. For read-only requests (investigation, explanation, review), select skills directly from request type.
+Use `repository` to refer to the workspace to avoid conflict with `project`.
+
+For read-only requests (investigation, explanation, review), select skills directly from request type.
 
 Treat classification as session state:
 
