@@ -9,7 +9,7 @@ description: Use when starting any conversation to classify work and invoke the 
 
 Before any response or action, decide whether a skill might apply. If there is even a 1% chance, load the skill first.
 
-Do not do "quick checks" before this. Do not rely on memory of old skill versions. Do not take one implementation step and "come back" to workflow later.
+No quick checks first, no relying on stale memory, and no "one step now, workflow later."
 
 ## Instruction Priority
 
@@ -28,22 +28,14 @@ For work that may change repository state, classify first:
 - `single phase/workstream`
 - `single task`
 
-Use `repository/repo` terminology.
-
-For read-only requests (for example investigation, explanation, or review), select skills directly from the request type instead of forcing work-hierarchy classification.
+Use `repository/repo` terminology. For read-only requests (investigation, explanation, review), select skills directly from request type.
 
 Treat classification as session state:
 
-- Reuse existing classification when still correct.
-- Reclassify explicitly when scope changes.
-- If scope emerges during discussion, state inferred class and continue.
-- If unclear and high-risk, ask one concise question.
-- Otherwise pick best-fit and proceed.
-- Precedence: explicit user statement -> persisted session memory -> current-request inference.
+- If already classified and still valid, do not classify again.
+- Reclassify only when scope changes or new work is needed.
 
 ## General Workflow
-
-Apply the core workflow after classification:
 
 - `single task` with design/behavior change -> design -> execute
 - `single task` without design/behavior change -> execute
@@ -51,12 +43,12 @@ Apply the core workflow after classification:
 
 ## Code Review Workflow
 
-Use code review as a dedicated workflow after or between implementation boundaries:
+Use code review after or between implementation boundaries:
 
 - Prepare a review package/request -> `requesting-code-review`
 - Intake review feedback and dispatch follow-up work (read-only) -> `receiving-code-review`
 
-For review-driven follow-up work, return to the general workflow above using the approved classification.
+For review-driven follow-up, return to the general workflow using the approved classification.
 
 ## Skill Quick Reference
 
@@ -81,7 +73,7 @@ If already inside an active workflow, continue it unless the user changed scope.
 
 ## Skill Closeout Workflow
 
-For workflow skills that end a boundary (for example design, planning, execution), use this canonical closeout contract:
+For boundary-ending workflow skills (design, planning, execution), use this closeout contract:
 
 1. Report outcomes and unresolved items.
 2. Go through unresolved questions one at a time with the user.
@@ -91,7 +83,7 @@ For workflow skills that end a boundary (for example design, planning, execution
 6. Run `memory-consolidation`.
 7. Confirm/wait for user instruction before starting recorded next work.
 
-If a workflow skill has phase-specific closeout steps, apply them in addition to this contract. If there is a conflict, this closeout contract wins unless the user explicitly overrides it.
+If a workflow skill has phase-specific closeout steps, apply both. If they conflict, this contract wins unless the user explicitly overrides it.
 
 ## Red Flags
 
