@@ -30,6 +30,8 @@ Use `repository` to refer to the workspace.
 
 For read-only requests, select skills directly from request type.
 
+Temporary diagnostic edits are accepted without classification only when the active skill explicitly allows them, and they must be reverted before the end of that skill workflow.
+
 Treat classification as session state:
 
 - If already classified and still valid, do not classify again.
@@ -77,7 +79,7 @@ If already inside an active workflow, continue it unless the user changed scope.
 
 ## Skill Closeout Workflow
 
-For boundary-ending workflow skills (design, planning, execution), use this closeout contract:
+Use this closeout contract if the active skill requires it:
 
 1. Report outcomes and unresolved items.
 2. Go through unresolved questions one at a time with the user.
@@ -87,7 +89,7 @@ For boundary-ending workflow skills (design, planning, execution), use this clos
 6. Run `memory-consolidation`.
 7. Confirm/wait for user instruction before starting recorded next work.
 
-If a workflow skill has phase-specific closeout steps, apply both. If they conflict, this contract wins unless the user explicitly overrides it.
+If a workflow skill has phase-specific closeout steps, apply both.
 
 ## Red Flags
 
