@@ -1,6 +1,6 @@
 ---
 name: using-superpowers
-description: Use when starting any conversation to classify work and invoke the correct skills before any response or action.
+description: Use when starting any conversation to classify work and invoke skills before responding.
 ---
 
 # Using Superpowers
@@ -30,7 +30,7 @@ Use `repository` to refer to the workspace.
 
 For read-only requests, select skills directly from request type.
 
-Temporary diagnostic edits are accepted without classification only when the active skill explicitly allows them, and they must be reverted before the end of that skill workflow.
+Temporary diagnostic edits may skip classification only when the active skill allows it, and must be reverted before that workflow ends.
 
 Treat classification as session state:
 
@@ -53,7 +53,7 @@ Use code review after or between implementation boundaries:
 - Prepare a review package/request -> `requesting-code-review`
 - Intake review feedback and dispatch follow-up work (read-only) -> `receiving-code-review`
 
-For review-driven follow-up, return to general workflow using approved classification.
+For review-driven follow-up, return to general workflow with approved classification.
 
 ## Skill Quick Reference
 
@@ -61,6 +61,7 @@ For review-driven follow-up, return to general workflow using approved classific
 - Design work -> `brainstorming`
 - Plan creation -> `writing-plans`
 - Plan execution -> `executing-plans`
+- Create/edit/verify skills -> `writing-skills`
 - Behavior changes during implementation -> `test-driven-development`
 - Before completion claims -> `verification-before-completion`
 - Prepare code review request -> `requesting-code-review`
