@@ -1,6 +1,6 @@
 ---
 name: finishing-a-project
-description: Use when a project branch is being closed and you need final verification plus closure notes captured in the project index.
+description: Use when closing project-level work on a dedicated branch.
 ---
 
 # Finishing a Project

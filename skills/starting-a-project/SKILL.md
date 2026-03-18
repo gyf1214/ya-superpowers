@@ -73,7 +73,7 @@ Use this template:
   - review doc: <path>
 
 ## Handoff Note
-- This section will be created during closing.
+- This section will be filled during closing.
 ```
 
 ## Step 4: Verify Hygiene
