@@ -73,7 +73,7 @@ Finish validation for the current skill before starting another.
 
 **Quality Checks:**
 - [ ] Decision guidance included only if decision is non-obvious
-- [ ] Quick reference table
+- [ ] Quick reference section (table, bullets, or checklist)
 - [ ] Common mistakes section
 - [ ] No narrative storytelling
 - [ ] Supporting files only for tools or heavy reference
@@ -95,8 +95,8 @@ Use baseline/post-change validation for every skill change.
 
 ## Skill Types
 
-### Technique
-Concrete method with steps to follow (condition-based-waiting, root-cause-tracing)
+### Workflow
+Concrete process with ordered steps to follow (condition-based-waiting, root-cause-tracing)
 
 ### Pattern
 Way of thinking about problems (flatten-with-flags, test-invariants)
@@ -154,21 +154,39 @@ What is this? Core principle in 1-2 sentences.
 Bullet list with SYMPTOMS and use cases
 When NOT to use
 
-## Core Pattern (for techniques/patterns)
-Before/after code comparison
+## Workflow (for workflow skills)
+**Step 1: [Title]**
+- Action to take
+- Expected outcome
+- Common failure to avoid
+
+**Step 2: [Title]**
+- Action to take
+- Expected outcome
+- Common failure to avoid
+
+## Core Pattern (for pattern skills)
+Decision rule + reusable structure:
+- Signal: what situation triggers this pattern
+- Rule: the principle to apply
+- Example: short before/after comparison
+- Boundaries: when not to apply this pattern
 
 ## Quick Reference
-Table or bullets for scanning common operations
+Table, bullets, or checklist for scanning common operations
 
-## Implementation
-Inline code for simple patterns
-Link to file for heavy reference or reusable tools
+## Rules / Criteria (one or more sections as needed)
+Rules to follow or criteria that guide detailed decisions.
+Split into multiple sections when needed (for example: Naming Rules, Validation Criteria, Safety Constraints).
+
+## Cross Reference (optional)
+Include this section only when cross-skill links are necessary.
+- Other skills involved by this skill
+- Other skills required by this skill
+- Skill transition/routing targets
 
 ## Common Mistakes
 What goes wrong + fixes
-
-## Real-World Impact (optional)
-Concrete results
 ```
 
 
@@ -289,13 +307,13 @@ wc -w skills/path/SKILL.md
 **When writing documentation that references other skills:**
 
 Keep skills self-contained by default. Reference another skill only when it is:
-- A dependency
-- An invocation target
-- A workflow transition target
+- Involved by this skill
+- Required by this skill
+- A skill transition/routing target
 
-Use skill name only. Use requirement markers only when the reference is truly mandatory:
-- ✅ Good: `**REQUIRED SUB-SKILL:** Use test-driven-development`
-- ✅ Good: `**REQUIRED BACKGROUND:** You MUST understand systematic-debugging`
+Use skill name only. Clearly state the role of the referenced skill:
+- ✅ Good: `Use test-driven-development` (invoke/dependency)
+- ✅ Good: `Transition to executing-plans workflow` (routing)
 - ❌ Bad: `See skills/testing/test-driven-development` (unclear if required)
 - ❌ Bad: `@skills/testing/test-driven-development/SKILL.md` (force-loads, burns context)
 
