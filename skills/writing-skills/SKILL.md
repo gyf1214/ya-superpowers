@@ -1,54 +1,97 @@
 ---
 name: writing-skills
-description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
+description: Use when creating new skills, editing existing skills, or reviewing skill changes before deployment
 ---
 
 # Writing Skills
 
 ## Overview
 
-**Writing skills IS Test-Driven Development applied to process documentation.**
+Use evidence-first validation when writing or editing skill instructions: capture baseline behavior, make targeted skill changes, and verify improved outcomes.
 
-**Personal skills typically live in agent-specific directories (for Codex, use `~/.codex/skills` when supported).**
+**Core principle:** If you cannot show a clear before/after behavior change, you do not know whether the skill works.
 
-You write test cases (pressure scenarios with agents), watch them fail (baseline behavior), write the skill (documentation), watch tests pass (agents comply), and refactor (close loopholes).
+**Required background:** Understand practical validation and evidence collection for behavior change.
 
-**Core principle:** If you didn't watch an agent fail without the skill, you don't know if the skill teaches the right thing.
+## When to Use
 
-**Required background:** Understand `test-driven-development` before using this skill. This skill applies the same RED-GREEN-REFACTOR cycle to documentation.
+- When working on an agent skill repository.
+- When creating a skill instruction.
+- When editing a skill instruction.
 
-**Official guidance:** Use your platform's official skill-authoring documentation for environment-specific details. This skill focuses on TDD discipline and verification.
+Suggest user to create a new skill:
+- for reusable workflows, recurring failure patterns, or durable decision rules
+- not for one-off fixes, repository-only conventions, or rules better enforced by automation
 
-## TDD Mapping for Skills
+## Validation Law
 
-| TDD Concept | Skill Creation |
-|-------------|----------------|
-| **Test case** | Pressure scenario with agent |
-| **Production code** | Skill document (SKILL.md) |
-| **Test fails (RED)** | Agent violates rule without skill (baseline) |
-| **Test passes (GREEN)** | Agent complies with skill present |
-| **Refactor** | Close loopholes while maintaining compliance |
-| **Write test first** | Run baseline scenario BEFORE writing skill |
-| **Watch it fail** | Document exact rationalizations agent uses |
-| **Minimal code** | Write skill addressing those specific violations |
-| **Watch it pass** | Verify agent now complies |
-| **Refactor cycle** | Find new rationalizations → plug → re-verify |
+```
+NO SKILL DEPLOYMENT WITHOUT VALIDATION EVIDENCE
+```
 
-The entire skill creation process follows RED-GREEN-REFACTOR.
+## Evidence-Based Verification Workflow
 
-## When to Create a Skill
+**Step 1: Define Goal**
+- State the real user goal and expected outcome in concrete terms.
+- Anchor it to a realistic user-experience scenario.
 
-**Create when:**
-- Technique wasn't intuitively obvious to you
-- You'd reference this again across projects
-- Pattern applies broadly (not project-specific)
-- Others would benefit
+**Step 2: Capture Baseline Behavior**
+- Predict or replay what an agent does today with current skill coverage.
+- Verify whether behavior meets the goal and record the gap.
+- Do not edit the skill until the gap is explicit.
 
-**Don't create for:**
-- One-off solutions
-- Standard practices well-documented elsewhere
-- Project-specific conventions (put in AGENTS.md)
-- Mechanical constraints (if it's enforceable with regex/validation, automate it—save documentation for judgment calls)
+**Step 3: Write/Update Skill**
+- Make the minimal skill changes that directly target the observed gap.
+
+**Step 4: Predict Post-Change Behavior**
+- State what an agent should do after the skill change.
+
+**Step 5: Verify Gap Is Bridged**
+- Re-run/replay the same scenario and confirm the outcome now meets the goal.
+
+## Skill Creation Checklist
+
+Finish validation for the current skill before starting another.
+
+**Design + Metadata:**
+- [ ] Name uses only letters, numbers, hyphens (no parentheses/special chars)
+- [ ] YAML frontmatter with only name and description (max 1024 chars)
+- [ ] Description starts with "Use when..." and includes specific triggers/symptoms
+- [ ] Description written in third person
+- [ ] Keywords throughout for search (errors, symptoms, tools)
+- [ ] Clear overview with core principle
+- [ ] Code inline OR link to separate file
+- [ ] One excellent example (not multi-language)
+
+**Evidence + Validation:**
+- [ ] Goal is explicit for the scenario under test
+- [ ] Baseline behavior captured and compared against goal
+- [ ] Behavior gap is explicit before edits
+- [ ] Skill changes directly target that gap
+- [ ] Post-change behavior verified on the same scenario
+- [ ] Gap is bridged and user outcome is improved
+
+**Quality Checks:**
+- [ ] Decision guidance included only if decision is non-obvious
+- [ ] Quick reference table
+- [ ] Common mistakes section
+- [ ] No narrative storytelling
+- [ ] Supporting files only for tools or heavy reference
+
+**Deployment:**
+- [ ] Commit skill changes if working in a skill repository
+
+## Validation Mapping for Skills
+
+| Validation Concept | Skill Creation |
+|--------------------|----------------|
+| **Baseline** | Observe behavior before changes (agent run or transcript replay) |
+| **Change** | Edit skill document (`SKILL.md`) |
+| **Post-change check** | Re-run scenario and verify behavior improved |
+| **Refactor** | Close loopholes while keeping validated behavior |
+| **Evidence** | Record concrete failures/rationalizations and post-change outcomes |
+
+Use baseline/post-change validation for every skill change.
 
 ## Skill Types
 
@@ -285,72 +328,6 @@ pptx/
 ```
 When: Reference material too large for inline
 
-## The Iron Law (Same as TDD)
-
-```
-NO SKILL WITHOUT A FAILING TEST FIRST
-```
-
-Applies to new skills and edits.
-
-If you wrote/edited a skill before running a failing baseline scenario:
-- Discard that draft.
-- Run RED first.
-- Rewrite from the RED findings.
-
-Do not keep pre-RED draft text as "reference" while writing the tested version.
-
-**REQUIRED BACKGROUND:** The test-driven-development skill explains why this matters. Same principles apply to documentation.
-
-## Testing All Skill Types
-
-Different skill types need different test approaches:
-
-### Discipline-Enforcing Skills (rules/requirements)
-
-**Examples:** TDD, verification-before-completion, designing-before-coding
-
-**Test with:**
-- Academic questions: Do they understand the rules?
-- Pressure scenarios: Do they comply under stress?
-- Multiple pressures combined: time + sunk cost + exhaustion
-- Identify rationalizations and add explicit counters
-
-**Success criteria:** Agent follows rule under maximum pressure
-
-### Technique Skills (how-to guides)
-
-**Examples:** condition-based-waiting, root-cause-tracing, defensive-programming
-
-**Test with:**
-- Application scenarios: Can they apply the technique correctly?
-- Variation scenarios: Do they handle edge cases?
-- Missing information tests: Do instructions have gaps?
-
-**Success criteria:** Agent successfully applies technique to new scenario
-
-### Pattern Skills (mental models)
-
-**Examples:** reducing-complexity, information-hiding concepts
-
-**Test with:**
-- Recognition scenarios: Do they recognize when pattern applies?
-- Application scenarios: Can they use the mental model?
-- Counter-examples: Do they know when NOT to apply?
-
-**Success criteria:** Agent correctly identifies when/how to apply pattern
-
-### Reference Skills (documentation/APIs)
-
-**Examples:** API documentation, command references, library guides
-
-**Test with:**
-- Retrieval scenarios: Can they find the right information?
-- Application scenarios: Can they use what they found correctly?
-- Gap testing: Are common use cases covered?
-
-**Success criteria:** Agent finds and correctly applies reference information
-
 ## Anti-Patterns
 
 ### ❌ Narrative Example
@@ -364,51 +341,3 @@ example-js.js, example-py.py, example-go.go
 ### ❌ Generic Labels
 helper1, helper2, step3, pattern4
 **Why bad:** Labels should have semantic meaning
-
-## Before Moving to Next Skill
-
-Finish validation for the current skill before starting another.
-
-Do not:
-- Create multiple skills in batch without testing each
-- Move to next skill before current one is verified
-- Skip testing to save time
-
-Use the checklist below as a quality guide for each skill.
-
-## Skill Creation Checklist (TDD Adapted)
-
-**RED Phase - Write Failing Test:**
-- [ ] Create pressure scenarios (3+ combined pressures for discipline skills)
-- [ ] Run scenarios WITHOUT skill - document baseline behavior verbatim
-- [ ] Identify patterns in rationalizations/failures
-
-**GREEN Phase - Write Minimal Skill:**
-- [ ] Name uses only letters, numbers, hyphens (no parentheses/special chars)
-- [ ] YAML frontmatter with only name and description (max 1024 chars)
-- [ ] Description starts with "Use when..." and includes specific triggers/symptoms
-- [ ] Description written in third person
-- [ ] Keywords throughout for search (errors, symptoms, tools)
-- [ ] Clear overview with core principle
-- [ ] Address specific baseline failures identified in RED
-- [ ] Code inline OR link to separate file
-- [ ] One excellent example (not multi-language)
-- [ ] Run scenarios WITH skill - verify agents now comply
-
-**REFACTOR Phase - Close Loopholes:**
-- [ ] Identify NEW rationalizations from testing
-- [ ] Add explicit counters (if discipline skill)
-- [ ] Build rationalization table from all test iterations
-- [ ] Create red flags list
-- [ ] Re-test until bulletproof
-
-**Quality Checks:**
-- [ ] Decision guidance included only if decision is non-obvious
-- [ ] Quick reference table
-- [ ] Common mistakes section
-- [ ] No narrative storytelling
-- [ ] Supporting files only for tools or heavy reference
-
-**Deployment:**
-- [ ] Commit skill to git
-- [ ] Prepare handoff notes for user-managed remote actions (push/PR), if needed
