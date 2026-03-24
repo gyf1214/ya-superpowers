@@ -68,9 +68,27 @@ Rules:
 
 ## Required Task Structure
 
+Plans must include a `## Tasks` section and use this task format:
+
+```markdown
+## Tasks
+
+### Task 1: [Title]
+[Short summary of the task scope and purpose]
+
+**Step 1: [Title]**
+Modify/Add/Delete (if any): [path or `none`]
+[Step description]
+
+**Step 2: [Title]**
+Modify/Add/Delete (if any): [path or `none`]
+[Step description]
+```
+
 Every task must include:
 
-- exact create/modify/test paths
+- a short summary of scope and purpose
+- exact create/modify/test paths in each step
 - TDD flow when applicable: failing test -> minimal implementation -> passing test
 - verification commands with expected outcomes
 - design-doc handling instruction (`reference-only` or `update Pending Changes`)
