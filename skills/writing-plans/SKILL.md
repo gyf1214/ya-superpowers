@@ -29,25 +29,16 @@ May be skipped for trivial standalone tasks with no practical planning value.
 
 ## Scope Decomposition Check
 
-Before tasking, verify scope shape.
-
-If design doc still bundles multiple independent subsystems, split into separate plans (one per subsystem). Each plan must deliver testable value independently.
-
-Do not create one monolithic plan for unrelated subsystems.
+Before tasking, split unrelated subsystems into separate plans. Each plan must deliver testable value independently.
 
 ## File Map Discipline
 
-Before writing tasks, define intended file structure:
-
-- exact files to create/modify/test
-- responsibilities per file
-- interfaces/boundaries between units
-
-Rules:
+Before writing tasks, define intended file structure and fold it into the task steps.
 
 - Prefer small, focused files with single clear responsibility.
 - Follow repository conventions and existing patterns.
 - Include the design doc in the file map as `reference-only` or `update Pending Changes`.
+- Do not add a separate `File Map` section to the plan unless the user asks for it.
 
 ## Required Plan Header
 
@@ -77,38 +68,38 @@ Plans must include a `## Tasks` section and use this task format:
 [Short summary of the task scope and purpose]
 
 **Step 1: [Title]**
-Modify/Add/Delete (if any): [path or `none`]
+Modify [path]
+Add [path]
+Delete [path]
 [Step description]
 
-**Step 2: [Title]**
-Modify/Add/Delete (if any): [path or `none`]
+**Step 2+: [Title]**
+[Use `Modify`, `Add`, and `Delete` lines as needed.]
 [Step description]
+
+**Step N: Commit**
+[`git add` and `git commit` command with co-author trailer]
+[Commit the tracked changes from earlier steps. Do not modify files in this step.]
 ```
 
 Every task must include:
 
 - a short summary of scope and purpose
-- exact create/modify/test paths in each step
+- exact create/modify/test paths in each step using explicit `Modify`, `Add`, and `Delete` lines as needed
 - TDD flow when applicable: failing test -> minimal implementation -> passing test
 - verification commands with expected outcomes
-- design-doc handling instruction (`reference-only` or `update Pending Changes`)
-- commit step when tracked files changed
+- an explicit final commit step when tracked files changed
+- no file-action lines in the commit step
 
 Keep steps bite-sized (roughly 2-5 minutes each).
+
+If `Design Doc Status In This Plan` is `updated`, include an explicit step to update the design doc.
 
 For `Project Context` not `none`, include one explicit early execution step to update project index phase status to `in progress`.
 
 ## Verification Discipline In Plans
 
-For behavior-changing tasks, plan steps must explicitly include:
-
-1. command to run failing test
-2. expected failure signal
-3. command to run passing test
-4. expected pass signal
-5. broader regression/targeted suite verification when appropriate
-
-Do not allow vague statements such as "run tests" without concrete commands.
+For behavior-changing tasks, follow `test-driven-development`: include explicit red, green, and regression verification commands. Do not write vague steps such as "run tests".
 
 ## Commit Guidance
 
@@ -127,11 +118,10 @@ Never include ignored files.
 
 After drafting:
 
-1. Self-review scope coverage, file-path validity, dependency order, test flow, and design-doc alignment.
-2. If `Project Context` is not `none`, verify the plan includes the early project-index `in progress` sync step.
-3. Verify each task has clear completion evidence.
-4. Fix issues and re-review until clean.
-5. If loop exceeds 5 iterations or major ambiguity remains, ask user for direction.
+1. Verify the plan satisfies the required header and task structure.
+2. Self-review scope coverage, file-path validity, dependency order, and test flow.
+3. Fix issues and re-review until clean.
+4. If loop exceeds 5 iterations or major ambiguity remains, ask user for direction.
 
 Do not hand off an unreviewed plan.
 
@@ -143,10 +133,6 @@ After plan review passes:
 2. If `Project Context` is not `none`, update the relevant project index phase entry: set status to `planned` and set the `plan doc` link.
 3. Then run the canonical `Skill Closeout Workflow` from `using-superpowers`.
 4. Record next work as plan execution with `executing-plans`.
-
-Use this confirmation format:
-
-"Plan complete and saved to `scratch/plans/<filename>.md`. Open questions were reviewed, next work is execution with `executing-plans`, and memory is consolidated. Confirm and I will proceed."
 
 ## Red Flags
 
