@@ -35,8 +35,12 @@ For each task:
 
 1. Mark task in progress.
 2. Follow task steps exactly (including TDD and verification steps).
-3. Run listed verifications and capture results.
-4. Mark task complete.
+3. Treat the planned commit step as part of task execution, not optional cleanup.
+4. Before any planned commit step, run `verification-before-completion` for the exact commit claim.
+5. Execute the planned `git add` and `git commit` commands when the task includes a commit step.
+6. After the commit, run `git status --short` and confirm the task's tracked changes were committed as intended.
+7. Run listed verifications and capture results.
+8. Mark task complete only after every planned step, including commit, is finished.
 
 Do not skip verification steps. Do not silently alter scope.
 
