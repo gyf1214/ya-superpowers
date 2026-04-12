@@ -19,10 +19,10 @@ Before touching code:
 2. Run `git status --short --branch`.
 3. Confirm workspace/branch/worktree matches plan header (`Work Level`, `Project Context`, scope).
 4. Read referenced canonical design doc.
-5. Read `Design Doc Status In This Plan` (`unchanged` or `updated`).
+5. Read `Design Doc Execution Mode` (`reference-only` or `reconcile-pending-changes`).
 6. If `Project Context` is not `none`, read the referenced `scratch/project-index/<project-slug>.md` and identify the phase entry for this plan.
-7. If `updated`, identify mapped `Pending Changes` items.
-8. If `unchanged`, treat design doc as reference-only.
+7. If `reconcile-pending-changes`, identify mapped `Pending Changes` items.
+8. If `reference-only`, treat design doc as reference-only.
 9. Critically review for gaps, ambiguity, or sequencing risks.
 
 If critical concerns exist, raise them and pause. Do not start execution while unresolved.
@@ -43,8 +43,9 @@ For each task:
 8. Mark task complete only after every planned step, including commit, is finished.
 
 Do not skip verification steps. Do not silently alter scope.
+Do not ask for approval between planned tasks unless blocked, the plan must change, or the user explicitly requested checkpoints.
 
-If plan status is `updated`, synchronize canonical design doc `Pending Changes` as mapped work lands.
+If plan mode is `reconcile-pending-changes`, synchronize canonical design doc `Pending Changes` as mapped work lands.
 If project-context, keep project index phase status current (`planned -> in progress -> done` or `blocked`) as execution state changes.
 
 ## Checkpoint Cadence
@@ -72,8 +73,8 @@ Do not treat implicit drift as acceptable.
 
 After all tasks complete:
 
-- `updated`: confirm `Pending Changes` now contains only remaining unimplemented deltas
-- `unchanged`: confirm no design-doc mutation occurred
+- `reconcile-pending-changes`: confirm `Pending Changes` now contains only remaining unimplemented deltas
+- `reference-only`: confirm no design-doc mutation occurred
 
 Re-open affected files and verify this explicitly.
 If project-context, verify project index phase status and links match delivered design/plan/review artifacts.
@@ -101,7 +102,7 @@ Never guess through blockers.
 
 - Follow plan order unless user explicitly approves change.
 - Keep branch hygiene visible via `git status` checks when context shifts.
-- Respect design-doc mode (`updated` vs `unchanged`) strictly.
+- Respect design-doc execution mode (`reference-only` vs `reconcile-pending-changes`) strictly.
 - Keep project index phase status synchronized for project-context execution.
 - Do not claim completion without verification evidence.
 - Do not skip required skills referenced by plan tasks.
@@ -120,5 +121,5 @@ Stop and correct if you see:
 
 - checking off tasks without running listed verifications
 - editing outside plan scope without user approval
-- treating `updated` design-doc mode as optional
+- treating `reconcile-pending-changes` design-doc mode as optional
 - reporting "done" before reconciliation and consolidation

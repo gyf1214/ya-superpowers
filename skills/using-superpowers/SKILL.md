@@ -19,7 +19,7 @@ If a skill conflicts with explicit user direction, follow the user.
 
 ## Work Classification First
 
-For ANY work that may change repository state, classify first:
+For repository-changing work, classify first:
 
 - `project`
 - `multiple phases` (inside existing project)
@@ -47,8 +47,6 @@ Treat classification as session state:
 For project-context work, keep `scratch/project-index/<project-slug>.md` synchronized at phase boundaries.
 
 ## Code Review Workflow
-
-Use code review after or between implementation boundaries:
 
 - Prepare a review package/request -> `requesting-code-review`
 - Intake review feedback and dispatch follow-up work (read-only) -> `receiving-code-review`
@@ -88,7 +86,7 @@ Use this closeout contract if the active skill requires it:
 4. Repeat until all currently known unresolved questions are addressed or explicitly tracked.
 5. Record next work.
 6. Run `memory-consolidation`.
-7. Confirm/wait for user instruction before starting recorded next work.
+7. Confirm/wait for user instruction only after a workflow boundary completes, not between internal steps or planned tasks.
 
 If a workflow skill has phase-specific closeout steps, apply both.
 

@@ -105,7 +105,7 @@ Treat this as a completion gate across design, planning, execution, and review w
 - Any positive status statement about work quality or correctness
 - Committing changes
 - Declaring a `task`, `phase/workstream`, or `project` complete
-- Moving to the next `task` or `phase/workstream`
+- Pausing, handing off, or reporting completion before the next `task` or `phase/workstream`
 - Closing a design boundary ("design ready/approved")
 - Closing a planning boundary ("plan ready for execution")
 - Closing a review boundary ("triage verified/complete")

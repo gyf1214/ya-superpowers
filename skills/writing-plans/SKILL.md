@@ -5,39 +5,40 @@ description: Use when phase/workstream implementation needs a written plan, or w
 
 # Writing Plans
 
-Produce an executable plan that a skilled engineer with little repository context can follow without guesswork.
+Announce: "I'm using the writing-plans skill."
 
-Announce at start: "I'm using the writing-plans skill to create the implementation plan."
-
-Default plan location: `scratch/plans/YYYY-MM-DD-<feature-name>.md` (user preference overrides).
+Default plan location: `scratch/plans/YYYY-MM-DD-<feature-name>.md` unless user preference overrides.
 
 ## When Required
-
-Use this skill for:
 
 - `phase` or `workstream` implementation
 - standalone `task` work when user requests planning or planning value is high
 
-May be skipped for trivial standalone tasks with no practical planning value.
+Skip trivial standalone tasks with no practical planning value.
 
 ## Inputs And Preconditions
 
-1. Read the approved design doc (usually `scratch/designs/<component-or-feature>.md`).
-2. Use `Pending Changes` as primary implementation-gap input when applicable.
-3. If design changes are needed but not approved, stop and route to `brainstorming`.
-4. If design is approved and unchanged for this scope, do not add unnecessary design-update tasks.
+1. Read the approved design doc (`scratch/designs/<component-or-feature>.md`).
+2. Treat the current design doc contents as authoritative repository state.
+3. If it contains approved `Pending Changes` relevant to this scope, use them as the primary implementation-gap input and map them into plan tasks.
+4. Set `Design Doc Execution Mode` from execution responsibility, not session history:
+   - `reference-only`: execution should not modify the design doc
+   - `reconcile-pending-changes`: execution should reconcile implemented `Pending Changes` items as work lands
+5. Do not infer `reference-only` just because the design doc was not edited in the current planning session.
+6. If design changes are needed but not approved, stop and route to `brainstorming`.
+7. If the design doc is strictly reference-only for this scope, do not add unnecessary design-update tasks.
 
 ## Scope Decomposition Check
 
-Before tasking, split unrelated subsystems into separate plans. Each plan must deliver testable value independently.
+Split unrelated subsystems into separate plans.
 
 ## File Map Discipline
 
-Before writing tasks, define intended file structure and fold it into the task steps.
+Before writing tasks, define intended file structure and fold it into task steps.
 
 - Prefer small, focused files with single clear responsibility.
 - Follow repository conventions and existing patterns.
-- Include the design doc in the file map as `reference-only` or `update Pending Changes`.
+- Include the design doc in the file map as `reference-only` or `reconcile Pending Changes`.
 - Do not add a separate `File Map` section to the plan unless the user asks for it.
 
 ## Required Plan Header
@@ -52,14 +53,14 @@ Before writing tasks, define intended file structure and fold it into the task s
 **Work Level:** [phase | workstream | task]
 **Project Context:** [scratch/project-index/<project-slug>.md, branch <branch-name> | none]
 **Design Reference:** [approved design doc path]
-**Design Doc Status In This Plan:** [unchanged | updated]
+**Design Doc Execution Mode:** [reference-only | reconcile-pending-changes]
 
 ---
 ```
 
 ## Required Task Structure
 
-Plans must include a `## Tasks` section and use this task format:
+Plans must include a `## Tasks` section in this format:
 
 ```markdown
 ## Tasks
@@ -85,21 +86,20 @@ Delete [path]
 Every task must include:
 
 - a short summary of scope and purpose
-- exact create/modify/test paths in each step using explicit `Modify`, `Add`, and `Delete` lines as needed
+- exact create/modify/test paths in each step using explicit `Modify`, `Add`, and `Delete` lines
 - TDD flow when applicable: failing test -> minimal implementation -> passing test
-- verification commands with expected outcomes
+- verification commands
 - an explicit final commit step when tracked files changed
 - no file-action lines in the commit step
+- when `Pending Changes` are in scope, explicit mapping from each implemented item to the task or step that lands it
 
-Keep steps bite-sized (roughly 2-5 minutes each).
+If `Design Doc Execution Mode` is `reconcile-pending-changes`, include explicit steps to update the design doc as work lands.
 
-If `Design Doc Status In This Plan` is `updated`, include an explicit step to update the design doc.
-
-For `Project Context` not `none`, include one explicit early execution step to update project index phase status to `in progress`.
+For `Project Context` not `none`, include one early step to set project index phase status to `in progress`.
 
 ## Verification Discipline In Plans
 
-For behavior-changing tasks, follow `test-driven-development`: include explicit red, green, and regression verification commands. Do not write vague steps such as "run tests".
+For behavior-changing tasks, follow `test-driven-development`: include explicit red, green, and regression verification commands. Do not write vague steps like "run tests".
 
 ## Commit Guidance
 
@@ -116,20 +116,16 @@ Never include ignored files.
 
 ## Plan Review Loop
 
-After drafting:
-
 1. Verify the plan satisfies the required header and task structure.
 2. Self-review scope coverage, file-path validity, dependency order, and test flow.
 3. Fix issues and re-review until clean.
-4. If loop exceeds 5 iterations or major ambiguity remains, ask user for direction.
+4. If the loop exceeds 5 iterations or major ambiguity remains, ask user for direction.
 
 Do not hand off an unreviewed plan.
 
 ## User Feedback And Closeout
 
-After plan review passes:
-
-1. Handle planning-specific deltas first: if user decisions materially change scope/order/verification, re-run the Plan Review Loop before handoff.
+1. Handle planning-specific deltas first: if user decisions materially change scope, order, or verification, re-run the Plan Review Loop before handoff.
 2. If `Project Context` is not `none`, update the relevant project index phase entry: set status to `planned` and set the `plan doc` link.
 3. Then run the canonical `Skill Closeout Workflow` from `using-superpowers`.
 4. Record next work as plan execution with `executing-plans`.
@@ -141,5 +137,5 @@ Stop and fix if you see:
 - vague file paths
 - implementation-first steps without failing tests
 - missing verification commands
-- missing design-doc reconciliation behavior
+- missing `Pending Changes` mapping or design-doc reconciliation behavior when required
 - handoff without user confirmation
