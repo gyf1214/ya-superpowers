@@ -129,6 +129,7 @@ Do not hand off an unreviewed plan.
 2. If `Project Context` is not `none`, update the relevant project index phase entry: set status to `planned` and set the `plan doc` link.
 3. Then run the canonical `Skill Closeout Workflow` from `using-superpowers`.
 4. Record next work as plan execution with `executing-plans`.
+5. After presenting the plan, stop. Do not invoke `executing-plans` until the user explicitly approves the plan or instructs execution.
 
 ## Red Flags
 
@@ -139,3 +140,4 @@ Stop and fix if you see:
 - missing verification commands
 - missing `Pending Changes` mapping or design-doc reconciliation behavior when required
 - handoff without user confirmation
+- invoking `executing-plans` without explicit plan approval

@@ -86,7 +86,8 @@ Use this closeout contract if the active skill requires it:
 4. Repeat until all currently known unresolved questions are addressed or explicitly tracked.
 5. Record next work.
 6. Run `memory-consolidation`.
-7. Confirm/wait for user instruction only after a workflow boundary completes, not between internal steps or planned tasks.
+7. If the boundary produced a design or plan artifact, confirm/wait for explicit user approval before starting the recorded next workflow.
+8. Do not wait between internal execution steps or planned tasks inside an already approved execution workflow.
 
 If a workflow skill has phase-specific closeout steps, apply both.
 
