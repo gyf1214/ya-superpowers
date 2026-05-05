@@ -9,7 +9,7 @@ description: Use when closing project-level work on a dedicated branch.
 
 Close implementation work with evidence and a clear handoff.
 
-**Core principle:** Validate project index -> verify baseline state -> write closure handoff in project index.
+**Core principle:** Validate project index -> verify baseline state -> write closure handoff -> consolidate memory for post-project reuse.
 
 **Scope:** This skill closes `project`-level work (dedicated branch). For independent workstreams/tasks, use verification-before-completion unless the user asks for a closure note.
 
@@ -62,7 +62,7 @@ Update `## Handoff Note` inside:
 Keep this section short (no extra subsections). Include:
 closure summary, verification summary, follow-ups, and user decisions.
 
-## Example structure
+Example handoff structure:
 
 ```markdown
 ## Handoff Note
@@ -71,6 +71,16 @@ closure summary, verification summary, follow-ups, and user decisions.
 - Follow-ups: <none or concise list>
 - User decisions: <none or concise list>
 ```
+
+### Step 4: Apply project-close memory consolidation
+
+When running closeout `memory-consolidation`, treat the project index and linked design/plan/review docs as the long-form archive. Keep memory to durable post-project signal:
+
+- remove project-specific timeline, phase history, implementation narration, and settled decision trails
+- fold completed project detail into brief `Reference` pointers to the project index or canonical docs
+- keep only reusable workflow lessons, repository-wide constraints, unresolved follow-ups, or important references
+- promote reusable cross-repository lessons to global memory only when they are durable outside this repository
+- leave `Journal` empty and remove completed project `Work` items
 
 ## Common Mistakes
 
@@ -97,9 +107,11 @@ closure summary, verification summary, follow-ups, and user decisions.
 - Claim closure without validating the project index
 - Skip git status in closure baseline
 - Skip updating `## Handoff Note` in the project index
+- Leave completed project timeline or implementation history in memory
 
 **Always:**
 - Provide evidence-first verification
 - Validate all phase and goal closure conditions in the project index
 - Write concise closure handoff notes directly in the project index
+- Apply project-close rules during closeout memory consolidation
 - Leave merge/push/remote operations to explicit user instruction
