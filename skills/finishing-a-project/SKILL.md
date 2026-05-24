@@ -74,11 +74,12 @@ Example handoff structure:
 
 ### Step 4: Apply project-close memory consolidation
 
-When running closeout `memory-consolidation`, treat the project index and linked design/plan/review docs as the long-form archive. Keep memory to durable post-project signal:
+When running closeout `memory-consolidation`, treat the project index and linked plan/review docs as closure evidence only, not persistent memory content. Keep memory to durable post-project signal:
 
-- remove project-specific timeline, phase history, implementation narration, and settled decision trails
-- fold completed project detail into brief `Reference` pointers to the project index or canonical docs
-- keep only reusable workflow lessons, repository-wide constraints, unresolved follow-ups, or important references
+- remove all project-specific timeline, phase history, implementation narration, completed-work summaries, and settled decision trails
+- remove `Reference` pointers that only preserve project history, implementation detail, plan docs, review docs, or the completed project index
+- keep only reusable workflow lessons, repository-wide constraints, unresolved follow-ups, and links to canonical design docs that remain useful after the project is closed
+- if completed project detail matters later, capture it in the relevant canonical design doc and keep only that design reference in memory
 - promote reusable cross-repository lessons to global memory only when they are durable outside this repository
 - leave `Journal` empty and remove completed project `Work` items
 
@@ -108,6 +109,7 @@ When running closeout `memory-consolidation`, treat the project index and linked
 - Skip git status in closure baseline
 - Skip updating `## Handoff Note` in the project index
 - Leave completed project timeline or implementation history in memory
+- Preserve completed project index/plan/review links as memory references unless they are canonical design references
 
 **Always:**
 - Provide evidence-first verification
